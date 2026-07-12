@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anything Everything | Parent Company</title>
+    <meta name="description" content="Anything Everything (AE) - Master enterprise group providing elite software, photography, culinary, fashion, and consultancy services.">
+    <title>Anything Everything | Master Enterprise Group</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -16,9 +17,6 @@
                         aeGoldLight: '#F3E5AB',
                         aeSilver: '#C0C0C0',
                     },
-                    fontFamily: {
-                        sans: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Display"', '"Segoe UI"', 'Roboto', 'sans-serif'],
-                    },
                     backgroundImage: {
                         'gold-gradient': 'linear-gradient(135deg, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C)',
                         'silver-gradient': 'linear-gradient(135deg, #8A8A8A, #E8E8E8, #8A8A8A)'
@@ -28,363 +26,89 @@
         }
     </script>
     <style>
-        body { background-color: #05070a; color: #e2e8f0; }
-        
-        .glass-nav {
-            background: rgba(5, 7, 10, 0.6);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
-        }
-
-        .bento-card {
-            background: linear-gradient(180deg, rgba(20, 25, 35, 0.8) 0%, rgba(10, 13, 18, 0.9) 100%);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .bento-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.3), transparent);
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-
-        .bento-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(212, 175, 55, 0.3);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(212, 175, 55, 0.05);
-        }
-
-        .bento-card:hover::before { opacity: 1; }
-
-        .text-gradient-gold {
-            background: linear-gradient(135deg, #D4AF37, #FFF8D6, #D4AF37);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        /* Scroll Reveal Classes */
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
-        }
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #05070a; }
-        ::-webkit-scrollbar-thumb { background: #1f2937; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #D4AF37; }
+        body { background-color: #05070a; color: #e2e8f0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        .glass-nav { background: rgba(5, 7, 10, 0.7); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(212, 175, 55, 0.1); }
+        .bento-card { background: linear-gradient(180deg, rgba(20, 25, 35, 0.8) 0%, rgba(10, 13, 18, 0.9) 100%); border: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+        .bento-card:hover { transform: translateY(-5px); border-color: rgba(212, 175, 55, 0.3); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6); }
+        .text-gradient-gold { background: linear-gradient(135deg, #D4AF37, #FFF8D6, #D4AF37); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
     </style>
 </head>
-<body class="antialiased overflow-x-hidden selection:bg-aeGold/30 selection:text-white">
+<body class="antialiased overflow-x-hidden">
 
     <!-- Navigation -->
     <nav class="glass-nav fixed top-0 left-0 right-0 z-50 h-16 flex items-center justify-between px-6 md:px-12">
-        <a href="#" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
-            <img src="https://i.ibb.co/3sX8s8g/AE-Logo-Gold.png" alt="AE Logo" class="h-8 object-contain" onerror="this.style.display='none'; document.getElementById('fallback-logo').style.display='block';">
-            <div id="fallback-logo" class="hidden text-xl font-serif font-bold text-gradient-gold tracking-widest">A E</div>
-            <span class="text-xs font-semibold tracking-widest uppercase text-aeSilver hidden sm:block border-l border-white/10 pl-3">Parent Group</span>
+        <a href="#" class="flex items-center gap-3">
+            <img src="https://i.ibb.co/3sX8s8g/AE-Logo-Gold.png" alt="AE Logo" class="h-8 w-8 object-contain" loading="eager">
+            <span class="text-xs font-bold tracking-widest uppercase text-aeSilver border-l border-white/10 pl-3">Parent Group</span>
         </a>
-        
         <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-400">
             <a href="#divisions" class="hover:text-aeGold transition-colors">Subdivisions</a>
-            <a href="#about" class="hover:text-aeGold transition-colors">Our Standard</a>
-            <a href="#order" class="text-aeGoldLight border border-aeGold/30 px-5 py-1.5 rounded-full hover:bg-aeGold hover:text-black transition-all">Make an Order</a>
+            <a href="#order" class="text-aeGoldLight border border-aeGold/30 px-5 py-1.5 rounded-full hover:bg-aeGold hover:text-black transition-all">Initiate Request</a>
         </div>
-        
-        <button class="md:hidden text-gray-300 focus:outline-none">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
-        </button>
     </nav>
 
     <!-- Hero Section -->
-    <section class="relative min-h-screen flex flex-col items-center justify-center text-center px-4 pt-20 overflow-hidden">
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-aeGold/5 rounded-full blur-[120px] pointer-events-none"></div>
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-aeSilver/5 rounded-full blur-[80px] pointer-events-none"></div>
-
-        <div class="z-10 reveal active">
-            <img src="https://i.ibb.co/3sX8s8g/AE-Logo-Gold.png" alt="Anything Everything" class="h-32 md:h-48 mx-auto mb-8 drop-shadow-[0_0_25px_rgba(212,175,55,0.15)]" onerror="this.style.display='none';">
-            
-            <h1 class="text-4xl md:text-7xl font-semibold tracking-tight text-white max-w-4xl mx-auto leading-[1.1]">
+    <section class="min-h-screen flex flex-col items-center justify-center text-center px-4 pt-20">
+        <div class="reveal active z-10">
+            <h1 class="text-5xl md:text-7xl font-semibold tracking-tight text-white mb-6">
                 ANYTHING <span class="font-light italic text-gray-400">You Order.</span><br>
                 EVERYTHING <span class="text-gradient-gold">We Deliver.</span>
             </h1>
-            
-            <p class="mt-6 text-lg md:text-xl text-gray-400 max-w-2xl mx-auto font-light">
-                One master enterprise. Five elite subdivisions. From bespoke digital architecture to culinary excellence and premium fashion.
-            </p>
-
-            <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center items-center">
-                <a href="#order" class="bg-gold-gradient text-black px-8 py-3.5 rounded-full text-sm font-bold hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] transition-all transform hover:scale-105">Initiate Request</a>
-                <a href="#divisions" class="text-gray-300 hover:text-white flex items-center gap-2 text-sm font-medium group">
-                    Explore Divisions 
-                    <svg class="w-4 h-4 group-hover:translate-y-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
-                </a>
+            <p class="mt-4 text-lg text-gray-400 max-w-xl mx-auto font-light">The master enterprise powering elite software, culinary, and creative solutions.</p>
+            <div class="mt-10 flex gap-4 justify-center">
+                <a href="#order" class="bg-gold-gradient text-black px-8 py-3.5 rounded-full text-sm font-bold hover:opacity-90 transition-opacity">Initiate Request</a>
             </div>
         </div>
     </section>
 
-    <!-- Divisions Bento Grid -->
-    <section id="divisions" class="py-24 px-4 md:px-8 max-w-[1280px] mx-auto relative z-10">
-        <div class="text-center mb-16 reveal">
-            <h2 class="text-xs font-bold tracking-[0.2em] text-aeGold uppercase mb-3">The AE Network</h2>
-            <h3 class="text-3xl md:text-5xl font-semibold text-white">Our Subdivisions.</h3>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-6 gap-4 md:gap-6 auto-rows-[minmax(250px,auto)]">
-            
-            <!-- Software -->
-            <div class="bento-card reveal rounded-3xl p-8 md:col-span-4 md:row-span-2 flex flex-col justify-between group">
-                <div>
-                    <div class="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-6 text-aeGold">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
-                    </div>
-                    <h4 class="text-2xl md:text-4xl font-semibold text-white tracking-tight">Software Services <br>& Digital Marketing</h4>
-                    <p class="mt-4 text-gray-400 text-sm md:text-base max-w-md leading-relaxed">
-                        Architecting your digital future. We build highly creative, flawlessly functioning websites, bespoke software infrastructure, and execute data-driven digital marketing campaigns that command attention.
-                    </p>
-                </div>
-                <div class="mt-8 flex flex-wrap gap-2">
-                    <span class="px-3 py-1 rounded-full text-xs font-medium bg-black/50 border border-white/10 text-gray-300">Web Development</span>
-                    <span class="px-3 py-1 rounded-full text-xs font-medium bg-black/50 border border-white/10 text-gray-300">Custom SaaS</span>
-                    <span class="px-3 py-1 rounded-full text-xs font-medium bg-black/50 border border-white/10 text-gray-300">SEO & Ads</span>
-                </div>
-                <div class="absolute right-0 bottom-0 opacity-10 group-hover:opacity-20 transition-opacity duration-700 pointer-events-none translate-x-1/4 translate-y-1/4">
-                    <svg width="300" height="300" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" stroke-width="0.5"><path d="M12 2L2 22h20L12 2z"/></svg>
-                </div>
+    <!-- Divisions -->
+    <section id="divisions" class="py-24 px-4 max-w-[1280px] mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-6 gap-6">
+            <div class="bento-card reveal rounded-3xl p-8 md:col-span-4 md:row-span-2">
+                <h4 class="text-3xl font-semibold text-white mb-4">Software & Digital Marketing</h4>
+                <p class="text-gray-400 max-w-md">Data-driven marketing, bespoke software infrastructure, and creative web development designed to scale.</p>
             </div>
-
-            <!-- Photography -->
-            <div class="bento-card reveal rounded-3xl p-8 md:col-span-2 md:row-span-1 flex flex-col justify-between relative group overflow-hidden">
-                <div class="z-10">
-                    <div class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-4 text-aeSilver">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                    </div>
-                    <h4 class="text-xl font-semibold text-white">Photography</h4>
-                    <p class="mt-2 text-gray-400 text-sm">Elite paid shoots and high-end fashion photography.</p>
-                </div>
-                <div class="mt-4 z-10">
-                    <span class="inline-block px-2 py-1 rounded border border-aeGold/30 text-[10px] text-aeGold bg-aeGold/10">All Included (Excl. Maternity)</span>
-                </div>
-                <div class="absolute -right-10 -bottom-10 w-40 h-40 border-[20px] border-white/5 rounded-full group-hover:scale-110 transition-transform duration-700"></div>
+            <div class="bento-card reveal rounded-3xl p-8 md:col-span-2">
+                <h4 class="text-lg font-semibold text-white">Photography</h4>
+                <p class="text-gray-400 text-sm mt-2">Elite paid and fashion shoots.</p>
             </div>
-
-            <!-- Food -->
-            <div class="bento-card reveal rounded-3xl p-8 md:col-span-2 md:row-span-1 flex flex-col justify-between relative overflow-hidden group">
-                <div class="z-10">
-                    <div class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-4 text-[#e8a87c]">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 15a2 2 0 01-2 2H5a2 2 0 01-2-2m18 0v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4m18 0l-2 5a2 2 0 01-2 2H7a2 2 0 01-2-2l-2-5M12 4v5m0 0a2 2 0 002-2V4h-4v3a2 2 0 002 2z"></path></svg>
-                    </div>
-                    <h4 class="text-xl font-semibold text-white">Food</h4>
-                    <p class="mt-2 text-gray-400 text-sm">Culinary perfection tailored to your taste.</p>
-                </div>
-                <div class="mt-4 flex gap-2 z-10">
-                    <span class="px-2 py-1 rounded text-[11px] bg-white/5 text-gray-300">Biryani</span>
-                    <span class="px-2 py-1 rounded text-[11px] bg-white/5 text-gray-300">Juices</span>
-                    <span class="px-2 py-1 rounded text-[11px] bg-white/5 text-gray-300">Cookies</span>
-                </div>
+            <div class="bento-card reveal rounded-3xl p-8 md:col-span-2">
+                <h4 class="text-lg font-semibold text-white">Culinary Arts</h4>
+                <p class="text-gray-400 text-sm mt-2">Premium Biryani, juices, and cookies.</p>
             </div>
-
-            <!-- Fashion -->
-            <div class="bento-card reveal rounded-3xl p-8 md:col-span-2 md:row-span-1 flex flex-col justify-between group">
-                <div>
-                    <div class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-4 text-[#cbaacb]">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
-                    </div>
-                    <h4 class="text-xl font-semibold text-white">Fashion</h4>
-                    <p class="mt-2 text-gray-400 text-sm">Curated style, bespoke apparel, and modern elegance.</p>
-                </div>
-            </div>
-
-            <!-- Consultancy -->
-            <div class="bento-card reveal rounded-3xl p-8 md:col-span-2 md:row-span-1 flex flex-col justify-between group">
-                <div>
-                    <div class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-4 text-[#a8d0e6]">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
-                    </div>
-                    <h4 class="text-xl font-semibold text-white">Consultancy Services</h4>
-                    <p class="mt-2 text-gray-400 text-sm">Strategic insights for business growth and operational scaling.</p>
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-    <!-- Dynamic Order/Concierge Section -->
-    <section id="order" class="py-24 px-4 relative">
-        <div class="absolute inset-0 bg-aePanel border-t border-white/5 shadow-[inset_0_20px_50px_rgba(0,0,0,0.5)]"></div>
-        
-        <div class="max-w-[800px] mx-auto relative z-10">
-            <div class="text-center mb-12 reveal">
-                <h2 class="text-3xl md:text-4xl font-semibold text-white mb-4">Direct Order Portal</h2>
-                <p class="text-gray-400">Select an AE Subdivision below to initiate your customized request.</p>
-            </div>
-
-            <div class="bg-[#05070a] border border-white/10 rounded-3xl p-6 md:p-10 shadow-2xl reveal">
-                
-                <div id="step1" class="transition-all duration-500">
-                    <label class="block text-xs font-bold tracking-widest text-aeGold uppercase mb-4">1. Select Service Category</label>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                        <button onclick="selectCategory('Software')" class="category-btn text-left p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-aeGold/50 transition-all focus:ring-2 focus:ring-aeGold">
-                            <span class="block text-white font-medium mb-1">Software & Digital</span>
-                        </button>
-                        <button onclick="selectCategory('Photography')" class="category-btn text-left p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-aeGold/50 transition-all focus:ring-2 focus:ring-aeGold">
-                            <span class="block text-white font-medium mb-1">Photography</span>
-                        </button>
-                        <button onclick="selectCategory('Food')" class="category-btn text-left p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-aeGold/50 transition-all focus:ring-2 focus:ring-aeGold">
-                            <span class="block text-white font-medium mb-1">Food</span>
-                        </button>
-                        <button onclick="selectCategory('Fashion')" class="category-btn text-left p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-aeGold/50 transition-all focus:ring-2 focus:ring-aeGold">
-                            <span class="block text-white font-medium mb-1">Fashion</span>
-                        </button>
-                        <button onclick="selectCategory('Consultancy')" class="category-btn text-left p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-aeGold/50 transition-all focus:ring-2 focus:ring-aeGold">
-                            <span class="block text-white font-medium mb-1">Consultancy</span>
-                        </button>
-                    </div>
-                </div>
-
-                <form id="orderForm" onsubmit="submitOrder(event)" class="hidden mt-8 pt-8 border-t border-white/10 space-y-5 animate-fade-in">
-                    <h3 class="text-xl text-white font-semibold flex items-center gap-2">
-                        <span id="selectedCatText" class="text-aeGold"></span> Request
-                    </h3>
-
-                    <div id="dynamicFields"></div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                        <div>
-                            <label class="block text-[11px] text-gray-400 uppercase tracking-wider mb-2">Full Name</label>
-                            <input required type="text" class="w-full bg-[#111] border border-white/10 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-aeGold transition-colors">
-                        </div>
-                        <div>
-                            <label class="block text-[11px] text-gray-400 uppercase tracking-wider mb-2">Email / Contact</label>
-                            <input required type="text" class="w-full bg-[#111] border border-white/10 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-aeGold transition-colors">
-                        </div>
-                    </div>
-                    
-                    <div>
-                        <label class="block text-[11px] text-gray-400 uppercase tracking-wider mb-2">Order Specifics / Message</label>
-                        <textarea required rows="3" class="w-full bg-[#111] border border-white/10 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-aeGold transition-colors" placeholder="Provide details here..."></textarea>
-                    </div>
-
-                    <button type="submit" class="w-full bg-silver-gradient text-black font-bold py-4 rounded-lg hover:shadow-[0_0_15px_rgba(255,255,255,0.3)] transition-all flex justify-center items-center gap-2">
-                        Submit Direct Order
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                    </button>
-                </form>
-
-                <div id="successState" class="hidden text-center py-12 animate-fade-in">
-                    <div class="w-16 h-16 mx-auto bg-aeGold/20 text-aeGold rounded-full flex items-center justify-center mb-4">
-                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                    </div>
-                    <h3 class="text-2xl font-semibold text-white">Order Received.</h3>
-                    <p class="text-gray-400 mt-2 max-w-sm mx-auto">The AE team has been notified. We will process your request and contact you shortly to finalize details.</p>
-                    <button onclick="resetForm()" class="mt-6 text-sm text-aeGold hover:underline">Submit another order</button>
-                </div>
+            <div class="bento-card reveal rounded-3xl p-8 md:col-span-2">
+                <h4 class="text-lg font-semibold text-white">Fashion</h4>
+                <p class="text-gray-400 text-sm mt-2">Curated style and bespoke apparel.</p>
             </div>
         </div>
     </section>
 
-    <footer class="bg-aeDark py-12 border-t border-white/5 relative z-10">
-        <div class="max-w-[1280px] mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
-            <div class="flex items-center gap-3">
-                <img src="https://i.ibb.co/3sX8s8g/AE-Logo-Gold.png" alt="AE" class="h-6 grayscale opacity-50" onerror="this.style.display='none';">
-                <span class="text-gray-500 text-sm font-medium">Anything Everything Services</span>
-            </div>
-            <div class="text-gray-600 text-xs">
-                &copy; 2026 AE Parent Company. All rights reserved.
-            </div>
+    <!-- Order Section -->
+    <section id="order" class="py-24 px-4">
+        <div class="max-w-2xl mx-auto bg-aePanel border border-white/10 rounded-3xl p-8">
+            <h2 class="text-2xl text-white font-semibold mb-6">Direct Order Portal</h2>
+            <form id="orderForm" class="space-y-4">
+                <select id="category" class="w-full bg-aeDark border border-white/10 rounded-lg p-3 text-white">
+                    <option>Software & Digital</option>
+                    <option>Photography</option>
+                    <option>Food</option>
+                    <option>Fashion</option>
+                    <option>Consultancy</option>
+                </select>
+                <input type="text" placeholder="Full Name" required class="w-full bg-aeDark border border-white/10 rounded-lg p-3 text-white">
+                <textarea placeholder="Order Details" required class="w-full bg-aeDark border border-white/10 rounded-lg p-3 text-white h-32"></textarea>
+                <button type="submit" class="w-full bg-aeGold text-black font-bold p-4 rounded-lg">Submit Request</button>
+            </form>
         </div>
-    </footer>
+    </section>
 
     <script>
-        function reveal() {
-            var reveals = document.querySelectorAll(".reveal");
-            for (var i = 0; i < reveals.length; i++) {
-                var windowHeight = window.innerHeight;
-                var elementTop = reveals[i].getBoundingClientRect().top;
-                var elementVisible = 100;
-                if (elementTop < windowHeight - elementVisible) {
-                    reveals[i].classList.add("active");
-                }
-            }
-        }
-        window.addEventListener("scroll", reveal);
-        reveal();
-
-        const orderForm = document.getElementById('orderForm');
-        const dynamicFields = document.getElementById('dynamicFields');
-        const selectedCatText = document.getElementById('selectedCatText');
-        const buttons = document.querySelectorAll('.category-btn');
-
-        function selectCategory(category) {
-            buttons.forEach(btn => {
-                btn.classList.remove('border-aeGold', 'bg-aeGold/10');
-                if(btn.innerText.includes(category)) {
-                    btn.classList.add('border-aeGold', 'bg-aeGold/10');
-                }
-            });
-
-            selectedCatText.innerText = category;
-            orderForm.classList.remove('hidden');
-            
-            let html = '';
-            if(category === 'Photography') {
-                html = `
-                    <label class="block text-[11px] text-gray-400 uppercase tracking-wider mb-2">Shoot Type</label>
-                    <select class="w-full bg-[#111] border border-white/10 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-aeGold transition-colors appearance-none">
-                        <option>Fashion Shoot</option>
-                        <option>Commercial Product</option>
-                        <option>Private Event</option>
-                    </select>
-                    <p class="text-[10px] text-aeGold mt-1 italic">* Note: Maternity shoots are excluded from standard packages.</p>
-                `;
-            } else if(category === 'Food') {
-                html = `
-                    <label class="block text-[11px] text-gray-400 uppercase tracking-wider mb-2">Select Items</label>
-                    <div class="flex gap-4 mb-2">
-                        <label class="flex items-center gap-2 text-sm text-gray-300"><input type="checkbox" class="accent-aeGold"> Biryani</label>
-                        <label class="flex items-center gap-2 text-sm text-gray-300"><input type="checkbox" class="accent-aeGold"> Juices</label>
-                        <label class="flex items-center gap-2 text-sm text-gray-300"><input type="checkbox" class="accent-aeGold"> Cookies</label>
-                    </div>
-                `;
-            } else if (category === 'Software') {
-                html = `
-                    <label class="block text-[11px] text-gray-400 uppercase tracking-wider mb-2">Project Scope</label>
-                    <select class="w-full bg-[#111] border border-white/10 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-aeGold transition-colors appearance-none">
-                        <option>Creative Website Build</option>
-                        <option>Custom Software Architecture</option>
-                        <option>Digital Marketing Campaign</option>
-                    </select>
-                `;
-            }
-
-            dynamicFields.innerHTML = html;
-        }
-
-        function submitOrder(e) {
-            e.preventDefault();
-            orderForm.classList.add('hidden');
-            document.getElementById('step1').classList.add('hidden');
-            document.getElementById('successState').classList.remove('hidden');
-        }
-
-        function resetForm() {
-            document.getElementById('orderForm').reset();
-            document.getElementById('successState').classList.add('hidden');
-            document.getElementById('step1').classList.remove('hidden');
-            buttons.forEach(btn => btn.classList.remove('border-aeGold', 'bg-aeGold/10'));
-        }
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
     </script>
 </body>
 </html>
