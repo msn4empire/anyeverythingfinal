@@ -3,84 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anything Everything | Enterprise</title>
+    <title>Anything Everything | Never Settle</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
-        body { font-family: 'Inter', sans-serif; background-color: #ffffff; color: #1d1d1f; }
-        .hero-title { letter-spacing: -0.05em; }
-        .apple-card { background: #f5f5f7; border-radius: 40px; padding: 60px; transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
-        .apple-card:hover { transform: scale(1.01); }
-        .nav-blur { backdrop-filter: saturate(180%) blur(20px); background-color: rgba(255, 255, 255, 0.7); }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #000000; color: #ffffff; }
+        .op-red { background-color: #f1022a; }
+        .text-op-red { color: #f1022a; }
+        .op-card { background: #1a1a1a; border-left: 4px solid #f1022a; transition: 0.3s; }
+        .op-card:hover { background: #262626; }
     </style>
 </head>
-<body class="antialiased">
+<body>
 
-    <!-- Apple-Style Navigation -->
-    <nav class="nav-blur sticky top-0 z-50 px-10 py-4 flex justify-between items-center border-b border-gray-100">
-        <div class="text-xl font-bold tracking-tighter">AE</div>
-        <div class="flex gap-8 text-sm font-light">
-            <a href="#divisions" class="hover:text-black text-gray-500 transition">Divisions</a>
-            <a href="#order" class="bg-black text-white px-5 py-2 rounded-full hover:bg-gray-800 transition">Order</a>
-        </div>
+    <!-- Nav -->
+    <nav class="flex justify-between items-center px-10 py-8 border-b border-white/10">
+        <div class="text-2xl font-bold tracking-tighter italic">AE<span class="text-op-red">.</span></div>
+        <a href="#order" class="px-6 py-2 border border-white hover:bg-white hover:text-black transition uppercase text-xs font-bold tracking-widest">Inquire</a>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="py-32 text-center px-6">
-        <h1 class="hero-title text-6xl md:text-8xl font-semibold mb-6">Anything Everything.</h1>
-        <p class="text-2xl text-gray-500 font-light max-w-2xl mx-auto">The master parent group. Precision engineering across five elite sectors.</p>
+    <!-- Hero -->
+    <section class="py-32 px-6 text-center">
+        <h1 class="text-7xl md:text-9xl font-bold tracking-tighter mb-8 italic">NEVER <span class="text-op-red">SETTLE</span>.</h1>
+        <p class="text-xl md:text-2xl font-light text-gray-400 max-w-2xl mx-auto">Anything Everything is built for those who demand precision, performance, and perfection across all enterprises.</p>
     </section>
 
-    <!-- Divisions: Apple Bento Grid -->
-    <section id="divisions" class="max-w-7xl mx-auto px-6 py-20 grid grid-cols-1 md:grid-cols-2 gap-8">
-        
-        <div class="apple-card">
-            <h2 class="text-3xl font-semibold mb-2">Software & Digital</h2>
-            <p class="text-gray-500">Bespoke architecture and high-performance marketing.</p>
+    <!-- Divisions Grid -->
+    <section id="divisions" class="max-w-7xl mx-auto px-6 py-20 grid md:grid-cols-2 gap-6">
+        <div class="op-card p-10">
+            <h2 class="text-4xl font-bold mb-4">Software & Digital</h2>
+            <p class="text-gray-400">High-performance code, custom SaaS, and data-driven marketing growth.</p>
         </div>
-        
-        <div class="apple-card">
-            <h2 class="text-3xl font-semibold mb-2">Photography</h2>
-            <p class="text-gray-500">Elite fashion and commercial production.</p>
+        <div class="op-card p-10">
+            <h2 class="text-4xl font-bold mb-4">Photography</h2>
+            <p class="text-gray-400">Capturing the vision with industrial precision and cinematic quality.</p>
         </div>
-
-        <div class="apple-card">
-            <h2 class="text-3xl font-semibold mb-2">Food Services</h2>
-            <p class="text-gray-500">Culinary excellence. From artisanal to bespoke catering.</p>
+        <div class="op-card p-10">
+            <h2 class="text-4xl font-bold mb-4">Food</h2>
+            <p class="text-gray-400">Culinary engineering. Fast, fresh, and uncompromisingly delicious.</p>
         </div>
-
-        <div class="apple-card">
-            <h2 class="text-3xl font-semibold mb-2">Fashion</h2>
-            <p class="text-gray-500">Modern style. Curated apparel for the enterprise.</p>
+        <div class="op-card p-10">
+            <h2 class="text-4xl font-bold mb-4">Fashion</h2>
+            <p class="text-gray-400">Curated style that pushes the boundaries of modern aesthetics.</p>
         </div>
-
-        <div class="apple-card md:col-span-2">
-            <h2 class="text-3xl font-semibold mb-2">Consultancy</h2>
-            <p class="text-gray-500">Strategic growth insights for modern business scaling.</p>
+        <div class="op-card p-10 md:col-span-2">
+            <h2 class="text-4xl font-bold mb-4">Consultancy</h2>
+            <p class="text-gray-400">Strategic operational efficiency designed to scale your enterprise to the top.</p>
         </div>
-
     </section>
 
     <!-- Order Portal -->
-    <section id="order" class="py-32 bg-gray-50">
-        <div class="max-w-xl mx-auto px-6">
-            <h2 class="text-5xl font-semibold tracking-tighter mb-12 text-center">Initiate Request</h2>
-            <form class="space-y-8">
-                <select class="w-full bg-transparent border-b-2 border-gray-200 py-4 focus:border-black transition focus:outline-none">
-                    <option>Software & Digital</option>
-                    <option>Photography</option>
-                    <option>Food</option>
-                    <option>Fashion</option>
-                    <option>Consultancy</option>
+    <section id="order" class="py-32 border-t border-white/10">
+        <div class="max-w-xl mx-auto px-6 text-center">
+            <h2 class="text-5xl font-bold mb-12 uppercase italic">Initiate Request</h2>
+            <form class="space-y-6">
+                <select class="w-full bg-transparent border-b border-white py-4 focus:outline-none">
+                    <option class="bg-black">Software & Digital Marketing</option>
+                    <option class="bg-black">Photography</option>
+                    <option class="bg-black">Food</option>
+                    <option class="bg-black">Fashion</option>
+                    <option class="bg-black">Consultancy</option>
                 </select>
-                <textarea placeholder="Tell us your vision..." class="w-full bg-transparent border-b-2 border-gray-200 py-4 focus:border-black transition focus:outline-none h-32"></textarea>
-                <button class="w-full bg-black text-white py-4 rounded-full font-medium hover:bg-gray-800 transition">Submit Request</button>
+                <textarea placeholder="Vision / Project Details" class="w-full bg-transparent border-b border-white py-4 focus:outline-none h-32"></textarea>
+                <button class="w-full op-red py-6 font-bold uppercase tracking-widest hover:bg-red-700 transition">Submit Order</button>
             </form>
         </div>
     </section>
 
-    <footer class="py-20 text-center text-gray-400 text-sm">
-        &copy; 2026 Anything Everything Group. All rights reserved.
+    <footer class="py-10 text-center text-gray-600 text-xs uppercase tracking-widest">
+        &copy; 2026 Anything Everything. All Rights Reserved.
     </footer>
 </body>
 </html>
