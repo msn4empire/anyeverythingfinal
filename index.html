@@ -3,71 +3,154 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anything Everything | Enterprise</title>
+    <title>Anything Everything | Master Enterprise</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;400;600&display=swap');
-        body { font-family: 'Inter', sans-serif; background-color: #ffffff; color: #1d1d1f; }
-        .nav-blur { backdrop-filter: saturate(180%) blur(20px); background-color: rgba(255, 255, 255, 0.7); }
-        .apple-card { background: #f5f5f7; border-radius: 40px; padding: 60px; transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
-        .apple-card:hover { transform: scale(1.01); }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;600;700&display=swap');
+        
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #ffffff; 
+            color: #1d1d1f; 
+            overflow-x: hidden;
+        }
+        
+        /* Apple-style frosted glass navigation */
+        .nav-blur { 
+            backdrop-filter: saturate(180%) blur(20px); 
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            background-color: rgba(255, 255, 255, 0.8); 
+        }
+
+        /* Typography tweaks */
+        .tracking-tightest { letter-spacing: -0.06em; }
+        
+        /* Division Section Styling */
+        .division-section {
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 100px 24px;
+            border-bottom: 1px solid #e5e5ea;
+        }
     </style>
 </head>
-<body class="antialiased">
+<body class="antialiased selection:bg-black selection:text-white">
 
-    <!-- Navigation -->
-    <nav class="nav-blur sticky top-0 z-50 px-10 py-4 flex justify-between items-center border-b border-gray-100">
-        <div class="text-xl font-bold tracking-tighter">AE</div>
-        <div class="flex gap-8 text-sm font-light">
-            <a href="#divisions" class="hover:text-black text-gray-500">Divisions</a>
-            <a href="#contact" class="hover:text-black text-gray-500">Contact</a>
+    <!-- Global Navigation -->
+    <nav class="nav-blur fixed top-0 w-full z-50 border-b border-gray-200/50">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-xl font-bold tracking-tighter">AE.</a>
+            <div class="hidden md:flex gap-8 text-xs font-medium tracking-wide text-gray-500">
+                <a href="#software" class="hover:text-black transition-colors">Software</a>
+                <a href="#photography" class="hover:text-black transition-colors">Photography</a>
+                <a href="#food" class="hover:text-black transition-colors">Food</a>
+                <a href="#fashion" class="hover:text-black transition-colors">Fashion</a>
+                <a href="#consultancy" class="hover:text-black transition-colors">Consultancy</a>
+            </div>
+            <a href="#contact" class="bg-black text-white px-5 py-2 rounded-full text-sm font-medium hover:bg-gray-800 transition-colors">Contact</a>
         </div>
     </nav>
 
-    <!-- Hero -->
-    <section class="py-32 text-center px-6">
-        <h1 class="text-6xl md:text-8xl font-semibold tracking-tighter mb-6">Anything Everything.</h1>
-        <p class="text-2xl text-gray-500 font-light max-w-xl mx-auto">The master parent group. Precision engineering across five elite sectors.</p>
+    <!-- Hero Section -->
+    <section class="min-h-screen flex flex-col justify-center items-center text-center px-6 pt-20">
+        <h2 class="text-gray-500 font-semibold tracking-widest uppercase text-sm mb-4">The Master Parent Group</h2>
+        <h1 class="text-6xl md:text-9xl font-semibold tracking-tightest mb-6">Anything <br/> Everything.</h1>
+        <p class="text-xl md:text-3xl text-gray-500 font-light max-w-3xl mx-auto mb-12">
+            Precision engineering across five elite sectors. <br class="hidden md:block">Excellence, delivered.
+        </p>
+        <a href="#software" class="text-blue-600 font-medium text-lg hover:underline flex items-center gap-2">
+            Explore our divisions 
+            <svg class="w-4 h-4 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+        </a>
     </section>
 
-    <!-- Business Divisions -->
-    <section id="divisions" class="max-w-7xl mx-auto px-6 py-20 grid md:grid-cols-2 gap-8">
-        <div class="apple-card">
-            <h2 class="text-3xl font-semibold mb-2">Software & Digital</h2>
-            <p class="text-gray-500 mb-6">Bespoke software and performance marketing.</p>
-            <a href="software.html" class="text-blue-600 font-medium">Learn more ></a>
-        </div>
-        <div class="apple-card">
-            <h2 class="text-3xl font-semibold mb-2">Photography</h2>
-            <p class="text-gray-500 mb-6">Cinematic visual production and fashion shoots.</p>
-            <a href="photography.html" class="text-blue-600 font-medium">Learn more ></a>
-        </div>
-        <div class="apple-card">
-            <h2 class="text-3xl font-semibold mb-2">Food</h2>
-            <p class="text-gray-500 mb-6">Culinary excellence delivered with precision.</p>
-            <a href="food.html" class="text-blue-600 font-medium">Learn more ></a>
-        </div>
-        <div class="apple-card">
-            <h2 class="text-3xl font-semibold mb-2">Fashion</h2>
-            <p class="text-gray-500 mb-6">Curated apparel and modern elegance.</p>
-            <a href="fashion.html" class="text-blue-600 font-medium">Learn more ></a>
-        </div>
-        <div class="apple-card md:col-span-2">
-            <h2 class="text-3xl font-semibold mb-2">Consultancy</h2>
-            <p class="text-gray-500 mb-6">Strategic growth for modern enterprises.</p>
-            <a href="consultancy.html" class="text-blue-600 font-medium">Learn more ></a>
+    <!-- 1. Software & Digital -->
+    <section id="software" class="division-section bg-[#f5f5f7]">
+        <div class="max-w-5xl mx-auto text-center">
+            <h2 class="text-5xl md:text-7xl font-bold tracking-tighter mb-6">Software & Digital.</h2>
+            <h3 class="text-2xl md:text-4xl font-light text-gray-600 mb-8">Architecting your digital future.</h3>
+            <p class="text-lg text-gray-500 max-w-2xl mx-auto leading-relaxed">
+                We build highly creative, flawlessly functioning websites, bespoke software infrastructure, and execute data-driven digital marketing campaigns that command attention and drive exponential growth.
+            </p>
         </div>
     </section>
 
-    <!-- Footer Contact -->
-    <section id="contact" class="py-20 border-t border-gray-100">
-        <div class="max-w-4xl mx-auto px-6 text-center text-gray-500">
-            <h3 class="text-2xl font-semibold text-black mb-6">Get in Touch</h3>
-            <p class="text-lg">Hyderabad, India</p>
-            <p class="text-lg">Phone: <a href="tel:+918096401777" class="text-black font-medium">8096401777</a></p>
-            <p class="text-lg">Email: <a href="mailto:ae@anyeverything.com" class="text-black font-medium">ae@anyeverything.com</a></p>
+    <!-- 2. Photography -->
+    <section id="photography" class="division-section bg-black text-white">
+        <div class="max-w-5xl mx-auto text-center">
+            <h2 class="text-5xl md:text-7xl font-bold tracking-tighter mb-6">Photography.</h2>
+            <h3 class="text-2xl md:text-4xl font-light text-gray-400 mb-8">Capture the unseen.</h3>
+            <p class="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
+                Elite paid shoots and high-end fashion photography. We provide cinematic visual production for brands and individuals who demand uncompromising quality.
+            </p>
         </div>
     </section>
+
+    <!-- 3. Food -->
+    <section id="food" class="division-section bg-[#faf9f6]">
+        <div class="max-w-5xl mx-auto text-center">
+            <h2 class="text-5xl md:text-7xl font-bold tracking-tighter mb-6 text-[#3e2723]">Food Services.</h2>
+            <h3 class="text-2xl md:text-4xl font-light text-[#5d4037] mb-8">Culinary perfection.</h3>
+            <p class="text-lg text-[#795548] max-w-2xl mx-auto leading-relaxed">
+                From premium Biryani to artisanal juices and bespoke cookies. Our culinary division delivers extraordinary tastes tailored specifically to your enterprise or private event.
+            </p>
+        </div>
+    </section>
+
+    <!-- 4. Fashion -->
+    <section id="fashion" class="division-section bg-white">
+        <div class="max-w-5xl mx-auto text-center">
+            <h2 class="text-5xl md:text-7xl font-bold tracking-tighter mb-6">Fashion.</h2>
+            <h3 class="text-2xl md:text-4xl font-light text-gray-500 mb-8">Modern style. Redefined.</h3>
+            <p class="text-lg text-gray-500 max-w-2xl mx-auto leading-relaxed">
+                Curated apparel and modern elegance. We design and deliver bespoke fashion solutions that allow you to express your unique identity with absolute confidence.
+            </p>
+        </div>
+    </section>
+
+    <!-- 5. Consultancy -->
+    <section id="consultancy" class="division-section bg-[#1c1c1e] text-white">
+        <div class="max-w-5xl mx-auto text-center">
+            <h2 class="text-5xl md:text-7xl font-bold tracking-tighter mb-6">Consultancy.</h2>
+            <h3 class="text-2xl md:text-4xl font-light text-gray-400 mb-8">Strategic insight for scale.</h3>
+            <p class="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
+                Operational scaling and business growth requires vision. Our consultancy division provides the high-level strategic roadmap modern enterprises need to dominate their market.
+            </p>
+        </div>
+    </section>
+
+    <!-- Contact & Footer -->
+    <footer id="contact" class="bg-[#f5f5f7] py-32 border-t border-[#d2d2d7]">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <h2 class="text-4xl md:text-5xl font-bold tracking-tightest mb-10">Get in Touch</h2>
+            
+            <div class="grid md:grid-cols-3 gap-10 text-lg text-gray-800 mb-16">
+                <div>
+                    <h4 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Location</h4>
+                    <p class="font-medium">Hyderabad<br>Telangana, India</p>
+                </div>
+                <div>
+                    <h4 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Direct Line</h4>
+                    <a href="tel:+918096401777" class="font-medium hover:text-blue-600 transition-colors">8096401777</a>
+                </div>
+                <div>
+                    <h4 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Email</h4>
+                    <a href="mailto:ae@anyeverything.com" class="font-medium hover:text-blue-600 transition-colors">ae@anyeverything.com</a>
+                </div>
+            </div>
+
+            <div class="pt-10 border-t border-[#d2d2d7] text-sm text-gray-500 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p>&copy; 2026 Anything Everything Group. All rights reserved.</p>
+                <div class="flex gap-4">
+                    <a href="#" class="hover:text-black transition">Privacy Policy</a>
+                    <span class="text-gray-300">|</span>
+                    <a href="#" class="hover:text-black transition">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
 
 </body>
 </html>
