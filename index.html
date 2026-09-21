@@ -10,9 +10,10 @@
             theme: {
                 extend: {
                     colors: {
-                        opRed: '#eb0029',
-                        appleGray: '#f5f5f7',
-                        aeDark: '#0a0a0a',
+                        aeAccent: '#00d0ff', /* Premium Cyan/Cerulean */
+                        aeDark: '#050505',
+                        aeTitanium: '#1a1a1c',
+                        aeSilver: '#f5f5f7'
                     },
                     fontFamily: {
                         sans: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Display"', 'Roboto', 'sans-serif'],
@@ -22,208 +23,254 @@
         }
     </script>
     <style>
-        body { background-color: #0a0a0a; color: #ffffff; overflow-x: hidden; }
+        body { background-color: #050505; color: #ffffff; overflow-x: hidden; }
         
-        /* Apple Frosted Glass + OnePlus Dark Mode */
+        /* Apple-style Frosted Glass */
         .glass-nav {
-            background: rgba(10, 10, 10, 0.7);
+            background: rgba(5, 5, 5, 0.7);
             backdrop-filter: saturate(180%) blur(20px);
             -webkit-backdrop-filter: saturate(180%) blur(20px);
             border-bottom: 1px solid rgba(255,255,255,0.05);
         }
 
-        /* Hybrid Cards: Rounded like Apple, Hover states like OnePlus */
-        .hybrid-card {
-            background: linear-gradient(145deg, #121212 0%, #1a1a1a 100%);
-            border-radius: 24px;
-            border: 1px solid rgba(255,255,255,0.05);
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .hybrid-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            border-color: #eb0029;
-            box-shadow: 0 20px 40px rgba(235, 0, 41, 0.15);
-        }
-
-        /* Transitions for SPA Routing */
-        .view-section { display: none; opacity: 0; transform: translateY(20px); transition: all 0.6s ease-out; }
-        .view-section.active { display: block; opacity: 1; transform: translateY(0); }
+        /* View Management for SPA */
+        .view-section { display: none; opacity: 0; transition: opacity 0.4s ease; }
+        .view-section.active { display: block; opacity: 1; }
         
-        /* Form Elements for Playwright Testing */
-        .test-input {
-            width: 100%; background: #121212; border: 1px solid #333; border-radius: 12px;
-            padding: 16px; color: white; transition: all 0.3s ease;
+        /* Scroll Animation Classes */
+        .reveal { opacity: 0; transform: translateY(80px); transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal.in-view { opacity: 1; transform: translateY(0); }
+        
+        .scale-reveal { opacity: 0; transform: scale(0.8); transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
+        .scale-reveal.in-view { opacity: 1; transform: scale(1); }
+
+        /* Custom Lockup Animation */
+        .shine-effect {
+            background: linear-gradient(to right, #4a4a4a 0%, #ffffff 50%, #4a4a4a 100%);
+            background-size: 200% auto;
+            color: transparent;
+            -webkit-background-clip: text;
+            animation: shine 3s linear infinite;
         }
-        .test-input:focus { outline: none; border-color: #eb0029; box-shadow: 0 0 0 3px rgba(235, 0, 41, 0.2); }
+        @keyframes shine { to { background-position: 200% center; } }
+
+        /* Abstract CSS Art for Categories */
+        .art-software { width: 150px; height: 150px; border: 2px solid rgba(0, 208, 255, 0.3); border-radius: 30px; position: relative; box-shadow: 0 0 60px rgba(0, 208, 255, 0.1); }
+        .art-software::after { content: ''; position: absolute; inset: 20px; border: 2px solid #00d0ff; border-radius: 15px; transform: rotate(15deg); transition: transform 1s; }
+        
+        .art-photo { width: 150px; height: 150px; border-radius: 50%; border: 1px solid #444; position: relative; display: flex; justify-content: center; items-center; }
+        .art-photo::after { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 60px; height: 60px; border-radius: 50%; border: 4px solid #fff; box-shadow: inset 0 0 20px rgba(255,255,255,0.5); }
+        
+        .art-food { width: 140px; height: 70px; border-top-left-radius: 70px; border-top-right-radius: 70px; background: linear-gradient(180deg, #333 0%, #111 100%); border: 1px solid #444; border-bottom: 4px solid #fff; }
+        
+        .art-fashion { width: 100px; height: 150px; background: #000; clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); border: 2px solid #fff; position: relative; }
+        
+        .art-consult { display: flex; align-items: flex-end; gap: 8px; height: 120px; }
+        .art-consult div { width: 30px; background: #fff; border-radius: 4px 4px 0 0; }
+        .art-consult div:nth-child(1) { height: 40px; background: #444; }
+        .art-consult div:nth-child(2) { height: 70px; background: #888; }
+        .art-consult div:nth-child(3) { height: 120px; background: #00d0ff; box-shadow: 0 0 30px rgba(0, 208, 255, 0.4); }
+
+        /* Full Screen Scroll Snap Sections */
+        .scroll-section { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 2rem; border-bottom: 1px solid rgba(255,255,255,0.05); }
+
+        .input-premium { width: 100%; background: #111; border: 1px solid #333; border-radius: 12px; padding: 18px; color: white; transition: all 0.3s ease; }
+        .input-premium:focus { outline: none; border-color: #00d0ff; box-shadow: 0 0 0 3px rgba(0, 208, 255, 0.2); }
     </style>
 </head>
-<body class="antialiased selection:bg-opRed selection:text-white">
+<body class="antialiased selection:bg-aeAccent selection:text-black">
 
     <!-- Global Navigation -->
     <nav class="glass-nav fixed top-0 w-full z-50 transition-all duration-300">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <button onclick="navigate('home')" data-testid="nav-logo" class="text-2xl font-bold tracking-tighter italic hover:opacity-80 transition">
-                AE<span class="text-opRed">.</span>
+            <button onclick="navigate('home')" class="text-2xl font-bold tracking-tighter italic hover:text-aeAccent transition">
+                AE.
             </button>
-            <div class="hidden md:flex gap-8 text-sm font-semibold tracking-wide text-gray-400 uppercase">
-                <button onclick="navigate('software')" data-testid="nav-software" class="hover:text-white transition">Software</button>
-                <button onclick="navigate('photography')" data-testid="nav-photography" class="hover:text-white transition">Photography</button>
-                <button onclick="navigate('food')" data-testid="nav-food" class="hover:text-white transition">Food</button>
-                <button onclick="navigate('fashion')" data-testid="nav-fashion" class="hover:text-white transition">Fashion</button>
-                <button onclick="navigate('consultancy')" data-testid="nav-consultancy" class="hover:text-white transition">Consultancy</button>
+            <div class="hidden md:flex gap-8 text-xs font-semibold tracking-widest text-gray-400 uppercase">
+                <button onclick="navigate('software')" class="hover:text-white transition">Software</button>
+                <button onclick="navigate('photography')" class="hover:text-white transition">Photo</button>
+                <button onclick="navigate('food')" class="hover:text-white transition">Food</button>
+                <button onclick="navigate('fashion')" class="hover:text-white transition">Fashion</button>
+                <button onclick="navigate('consultancy')" class="hover:text-white transition">Consult</button>
             </div>
-            <div class="flex items-center gap-4">
-                <div class="text-xs text-gray-500 font-mono tracking-widest hidden sm:block">
-                    VISITORS: <span id="visitor-count" data-testid="visitor-counter" class="text-opRed font-bold">0</span>
-                </div>
+            <div class="text-xs text-gray-500 font-mono tracking-widest hidden sm:block">
+                VISITS: <span id="visitor-count" class="text-aeAccent font-bold">0</span>
             </div>
         </div>
     </nav>
 
-    <!-- MAIN APP CONTAINER -->
-    <main id="app-root" class="pt-24 pb-20 min-h-screen">
+    <!-- MAIN FEED (SCROLL EXPERIENCE) -->
+    <main id="home-feed" class="view-section active">
 
-        <!-- ================= HOME VIEW ================= -->
-        <section id="home" class="view-section active max-w-7xl mx-auto px-6">
-            <div class="py-20 md:py-32 text-center">
-                <span data-testid="qa-badge" class="border border-opRed/30 text-opRed px-4 py-1 rounded-full text-xs font-bold tracking-widest uppercase mb-8 inline-block bg-opRed/10">Playwright & AI Ready</span>
-                <h1 class="text-6xl md:text-9xl font-bold tracking-tighter mb-6 italic" data-testid="hero-title">NEVER <span class="text-opRed">SETTLE.</span></h1>
-                <p class="text-xl md:text-2xl text-gray-400 font-light max-w-3xl mx-auto mb-16 leading-relaxed">
-                    The master enterprise engineered for flawless performance. Select a division below to initiate collaboration.
+        <!-- 0. HERO SECTION -->
+        <section class="scroll-section bg-aeDark">
+            <div class="reveal">
+                <!-- Custom ANY/EVERY/THING Lockup -->
+                <div class="inline-grid grid-cols-[auto_auto] grid-rows-2 items-center gap-x-2 md:gap-x-4 uppercase italic tracking-tighter font-bold transform hover:scale-105 transition-transform duration-700 mb-8 cursor-default">
+                    <div class="text-right text-3xl md:text-7xl leading-none text-white row-start-1 col-start-1 self-end pb-1 md:pb-2">ANY</div>
+                    <div class="text-right text-3xl md:text-7xl leading-none text-aeAccent row-start-2 col-start-1 self-start pt-1 md:pt-2">EVERY</div>
+                    <div class="text-[4.5rem] md:text-[11rem] leading-none row-span-2 col-start-2 relative shine-effect pr-4">
+                        THING<span class="text-aeAccent absolute bottom-2 md:bottom-5 text-4xl md:text-7xl" style="-webkit-text-fill-color: #00d0ff;">.</span>
+                    </div>
+                </div>
+                <p class="text-xl md:text-3xl text-gray-400 font-light max-w-3xl mx-auto leading-relaxed mt-4">
+                    <span class="text-white font-semibold">ANYTHING</span> You order, <span class="text-aeAccent font-semibold">EVERYTHING</span> We deliver.
                 </p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-testid="division-grid">
-                <!-- Grid Cards trigger JS Navigation -->
-                <button onclick="navigate('software')" data-testid="card-software" class="hybrid-card p-10 text-left group">
-                    <div class="text-opRed mb-4"><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg></div>
-                    <h2 class="text-3xl font-bold mb-2 group-hover:text-opRed transition-colors">Software & Digital</h2>
-                    <p class="text-gray-500 text-sm">Enterprise architecture & AI pipelines.</p>
-                </button>
-                <button onclick="navigate('photography')" data-testid="card-photography" class="hybrid-card p-10 text-left group">
-                    <div class="text-opRed mb-4"><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path></svg></div>
-                    <h2 class="text-3xl font-bold mb-2 group-hover:text-opRed transition-colors">Photography</h2>
-                    <p class="text-gray-500 text-sm">Cinematic and commercial visual production.</p>
-                </button>
-                <button onclick="navigate('food')" data-testid="card-food" class="hybrid-card p-10 text-left group">
-                    <div class="text-opRed mb-4"><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 15a2 2 0 01-2 2H5a2 2 0 01-2-2m18 0v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4m18 0l-2 5a2 2 0 01-2 2H7a2 2 0 01-2-2l-2-5M12 4v5m0 0a2 2 0 002-2V4h-4v3a2 2 0 002 2z"></path></svg></div>
-                    <h2 class="text-3xl font-bold mb-2 group-hover:text-opRed transition-colors">Food Services</h2>
-                    <p class="text-gray-500 text-sm">Premium culinary and catering automation.</p>
-                </button>
-                <button onclick="navigate('fashion')" data-testid="card-fashion" class="hybrid-card p-10 text-left group">
-                    <div class="text-opRed mb-4"><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg></div>
-                    <h2 class="text-3xl font-bold mb-2 group-hover:text-opRed transition-colors">Fashion</h2>
-                    <p class="text-gray-500 text-sm">Bespoke apparel and curated brand styling.</p>
-                </button>
-                <button onclick="navigate('consultancy')" data-testid="card-consultancy" class="hybrid-card p-10 text-left group lg:col-span-2">
-                    <div class="text-opRed mb-4"><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg></div>
-                    <h2 class="text-3xl font-bold mb-2 group-hover:text-opRed transition-colors">Consultancy</h2>
-                    <p class="text-gray-500 text-sm">Strategic scaling and operational architecture for enterprise.</p>
-                </button>
+                <p class="text-sm text-gray-600 tracking-widest uppercase mt-16 animate-pulse">Scroll to explore divisions &darr;</p>
             </div>
         </section>
 
-        <!-- ================= DYNAMIC CATEGORY TEMPLATE (Reused for all divisions via JS) ================= -->
-        <section id="category-view" class="view-section max-w-5xl mx-auto px-6">
-            <button onclick="navigate('home')" data-testid="back-btn" class="text-gray-500 hover:text-opRed transition font-semibold text-sm uppercase tracking-widest mb-12 flex items-center gap-2">
-                &larr; Return to Hub
+        <!-- 1. SOFTWARE SECTION -->
+        <section class="scroll-section bg-aeTitanium relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#00d0ff10] to-transparent pointer-events-none"></div>
+            <div class="scale-reveal mb-12"><div class="art-software"></div></div>
+            <div class="reveal max-w-3xl z-10">
+                <h2 class="text-5xl md:text-7xl font-bold tracking-tight mb-4">Software & Digital.</h2>
+                <p class="text-xl text-gray-400 mb-10 font-light">Enterprise-grade architecture and hyper-converting digital experiences. Engineered for absolute scale.</p>
+                <button onclick="navigate('software')" class="bg-white text-black px-8 py-4 rounded-full font-bold uppercase tracking-widest text-sm hover:scale-105 transition-transform">Explore Division &rarr;</button>
+            </div>
+        </section>
+
+        <!-- 2. PHOTOGRAPHY SECTION -->
+        <section class="scroll-section bg-aeDark">
+            <div class="scale-reveal mb-12"><div class="art-photo"></div></div>
+            <div class="reveal max-w-3xl">
+                <h2 class="text-5xl md:text-7xl font-bold tracking-tight mb-4">Photography.</h2>
+                <p class="text-xl text-gray-400 mb-10 font-light">Cinematic precision. We capture the unseen through high-end commercial and fashion lenses.</p>
+                <button onclick="navigate('photography')" class="bg-white text-black px-8 py-4 rounded-full font-bold uppercase tracking-widest text-sm hover:scale-105 transition-transform">Explore Division &rarr;</button>
+            </div>
+        </section>
+
+        <!-- 3. FOOD SECTION -->
+        <section class="scroll-section bg-[#0d0d0d]">
+            <div class="scale-reveal mb-12"><div class="art-food"></div></div>
+            <div class="reveal max-w-3xl">
+                <h2 class="text-5xl md:text-7xl font-bold tracking-tight mb-4">Food Services.</h2>
+                <p class="text-xl text-gray-400 mb-10 font-light">Culinary excellence. From bespoke enterprise catering to masterfully crafted signature dishes.</p>
+                <button onclick="navigate('food')" class="bg-white text-black px-8 py-4 rounded-full font-bold uppercase tracking-widest text-sm hover:scale-105 transition-transform">Explore Division &rarr;</button>
+            </div>
+        </section>
+
+        <!-- 4. FASHION SECTION -->
+        <section class="scroll-section bg-aeSilver text-black">
+            <div class="scale-reveal mb-12"><div class="art-fashion border-black bg-white"></div></div>
+            <div class="reveal max-w-3xl">
+                <h2 class="text-5xl md:text-7xl font-bold tracking-tight mb-4">Fashion.</h2>
+                <p class="text-xl text-gray-600 mb-10 font-light">Modern elegance redefined. Curated apparel and bespoke styling for the discerning individual.</p>
+                <button onclick="navigate('fashion')" class="bg-black text-white px-8 py-4 rounded-full font-bold uppercase tracking-widest text-sm hover:scale-105 transition-transform">Explore Division &rarr;</button>
+            </div>
+        </section>
+
+        <!-- 5. CONSULTANCY SECTION -->
+        <section class="scroll-section bg-aeDark">
+            <div class="scale-reveal mb-12"><div class="art-consult"><div></div><div></div><div></div></div></div>
+            <div class="reveal max-w-3xl">
+                <h2 class="text-5xl md:text-7xl font-bold tracking-tight mb-4">Consultancy.</h2>
+                <p class="text-xl text-gray-400 mb-10 font-light">Visionary strategies. We provide the operational roadmap to scale your enterprise to the apex.</p>
+                <button onclick="navigate('consultancy')" class="bg-aeAccent text-black px-8 py-4 rounded-full font-bold uppercase tracking-widest text-sm hover:scale-105 transition-transform">Explore Division &rarr;</button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ================= DYNAMIC CATEGORY / DETAIL VIEW ================= -->
+    <main id="category-view" class="view-section pt-32 pb-20 min-h-screen">
+        <div class="max-w-5xl mx-auto px-6">
+            <button onclick="navigate('home')" class="text-gray-500 hover:text-white transition font-semibold text-xs uppercase tracking-widest mb-12 flex items-center gap-2">
+                &larr; Back to Scroll Feed
             </button>
             
-            <h1 id="cat-title" data-testid="dynamic-title" class="text-6xl md:text-7xl font-bold tracking-tighter mb-4">Division</h1>
-            <p id="cat-desc" data-testid="dynamic-desc" class="text-xl text-gray-400 mb-16 max-w-2xl">Details load here.</p>
+            <h1 id="cat-title" class="text-6xl md:text-8xl font-bold tracking-tighter mb-6">Division</h1>
+            <p id="cat-desc" class="text-2xl text-gray-400 mb-20 max-w-3xl font-light leading-relaxed">Details load here.</p>
 
-            <!-- Testable Collaborators Grid -->
-            <div class="mb-20">
-                <h3 class="text-xl font-bold border-b border-white/10 pb-4 mb-6 text-opRed uppercase tracking-widest">Active Collaborators</h3>
-                <div id="collab-grid" data-testid="collab-container" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Active Brands / Collaborators -->
+            <div class="mb-24">
+                <h3 class="text-sm font-bold border-b border-white/10 pb-4 mb-8 text-gray-500 uppercase tracking-widest">Active Collaborators & Portfolios</h3>
+                <div id="collab-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Populated by JS -->
                 </div>
             </div>
 
-            <!-- Highly Testable Complex Form for QA/AI Automation -->
-            <div class="hybrid-card p-8 md:p-12">
-                <h3 class="text-2xl font-bold mb-8">Initiate Collaboration (Automation Target)</h3>
-                <form id="qa-form" onsubmit="event.preventDefault(); alert('Form submitted successfully!');" class="space-y-6">
+            <!-- Initiate Collaboration Form -->
+            <div class="bg-aeTitanium border border-white/5 p-8 md:p-14 rounded-[40px]">
+                <h3 class="text-3xl font-bold mb-10">Initiate Project Request</h3>
+                <form id="contact-form" onsubmit="event.preventDefault(); alert('Request submitted successfully. Our team will contact you shortly.');" class="space-y-8">
                     
-                    <div class="grid md:grid-cols-2 gap-6">
+                    <div class="grid md:grid-cols-2 gap-8">
                         <div>
-                            <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Partner Name</label>
-                            <input type="text" data-testid="input-name" required class="test-input" placeholder="Brand / Individual">
+                            <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-3">Partner / Brand Name</label>
+                            <input type="text" required class="input-premium" placeholder="Enter name">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Contact Email</label>
-                            <input type="email" data-testid="input-email" required class="test-input" placeholder="contact@brand.com">
+                            <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-3">Contact Email</label>
+                            <input type="email" required class="input-premium" placeholder="contact@brand.com">
                         </div>
                     </div>
 
                     <div>
-                        <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Engagement Scope</label>
-                        <select data-testid="select-scope" required class="test-input appearance-none">
-                            <option value="" disabled selected>Select scope...</option>
-                            <option value="tier1">Tier 1: Enterprise Retainer</option>
-                            <option value="tier2">Tier 2: Single Project Execution</option>
-                            <option value="tier3">Tier 3: Advisory / Consultation</option>
+                        <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-3">Engagement Scope</label>
+                        <select required class="input-premium appearance-none">
+                            <option value="" disabled selected>Select execution level...</option>
+                            <option value="tier1">Enterprise Retainer</option>
+                            <option value="tier2">Single Project Execution</option>
+                            <option value="tier3">Advisory & Consultation</option>
                         </select>
                     </div>
 
-                    <div>
-                        <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-4">Priority Level</label>
-                        <div class="flex flex-wrap gap-6 bg-[#121212] p-4 rounded-xl border border-[#333]">
-                            <label class="flex items-center gap-3 cursor-pointer">
-                                <input type="radio" name="priority" value="standard" data-testid="radio-standard" class="w-5 h-5 accent-opRed" checked>
-                                <span class="text-sm font-medium">Standard SLA</span>
-                            </label>
-                            <label class="flex items-center gap-3 cursor-pointer">
-                                <input type="radio" name="priority" value="rush" data-testid="radio-rush" class="w-5 h-5 accent-opRed">
-                                <span class="text-sm font-medium text-opRed">Rush Processing</span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="pt-4">
-                        <label class="flex items-center gap-4 cursor-pointer p-4 border border-white/5 rounded-xl hover:border-white/20 transition">
-                            <input type="checkbox" data-testid="checkbox-nda" class="w-6 h-6 accent-opRed">
-                            <span class="text-sm font-medium text-gray-300">I require a Non-Disclosure Agreement (NDA) prior to technical scoping.</span>
-                        </label>
-                    </div>
-
-                    <button type="submit" data-testid="submit-btn" class="w-full bg-white text-black font-bold uppercase tracking-widest py-5 rounded-xl hover:bg-opRed hover:text-white transition-all duration-300 transform hover:scale-[1.02]">
-                        Submit to AI Processor
+                    <button type="submit" class="w-full bg-white text-black font-bold uppercase tracking-widest py-5 rounded-2xl hover:bg-aeAccent hover:text-black transition-all duration-300 transform hover:scale-[1.01]">
+                        Submit to Processing
                     </button>
                 </form>
             </div>
-        </section>
+        </div>
     </main>
 
-    <footer class="border-t border-white/10 bg-[#050505] py-12 text-center text-gray-600 text-xs uppercase tracking-widest font-semibold">
-        <p class="mb-2">&copy; <span id="year"></span> Anything Everything. All Rights Reserved.</p>
-        <p>Automated by Playwright | AI Integrated | Design by AE</p>
+    <footer class="border-t border-white/5 bg-[#020202] py-16 text-center text-gray-500 text-xs tracking-widest font-semibold flex flex-col items-center gap-4">
+        <p class="uppercase text-white tracking-widest text-sm">Anything Everything Group</p>
+        <p>Hyderabad, Telangana, India</p>
+        <p>Email: <a href="mailto:ae@anyeverything.com" class="hover:text-white transition">ae@anyeverything.com</a> | Phone: <a href="tel:+918096401777" class="hover:text-white transition">8096401777</a></p>
+        <p class="mt-6 text-gray-700">&copy; <span id="year"></span> All Rights Reserved.</p>
     </footer>
 
-    <!-- Logic for SPA Routing, Data, and Visitor Counter -->
+    <!-- Scripts: Scroll Animation & SPA Routing -->
     <script>
-        // Set Year
+        // Set Year & Visitor Counter
         document.getElementById('year').innerText = new Date().getFullYear();
-
-        // Visitor Counter Logic (Uses LocalStorage to simulate backend tracking)
         let count = localStorage.getItem('ae_visitor_count') || 0;
         count = parseInt(count) + 1;
         localStorage.setItem('ae_visitor_count', count);
         document.getElementById('visitor-count').innerText = count.toLocaleString();
 
-        // Data for Dynamic Pages
+        // Intersection Observer for Apple-Style Scroll Animations
+        const observerOptions = { root: null, rootMargin: '0px', threshold: 0.25 };
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view');
+                }
+            });
+        }, observerOptions);
+
+        function initAnimations() {
+            document.querySelectorAll('.reveal, .scale-reveal').forEach(el => observer.observe(el));
+        }
+        
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', initAnimations);
+
+        // Data for Dynamic Detail Pages
         const pageData = {
             software: {
                 title: "Software & Digital.",
-                desc: "Enterprise architecture, full-stack web solutions, and data-driven marketing campaigns engineered for scale.",
+                desc: "Enterprise architecture, full-stack web solutions, and high-conversion digital marketing campaigns engineered for absolute scale.",
                 collabs: [
                     { name: "DevOps Dynamics", role: "Cloud Infrastructure Partner", link: "#" },
-                    { name: "Apex Marketing AI", role: "Digital Ad Operations", link: "#" }
+                    { name: "Apex Marketing", role: "Digital Ad Operations", link: "#" }
                 ]
             },
             photography: {
                 title: "Photography.",
-                desc: "Cinematic commercial shoots, high-end fashion editorials, and elite visual storytelling.",
+                desc: "Cinematic commercial shoots, high-end fashion editorials, and elite visual storytelling. We capture the unseen.",
                 collabs: [
                     { name: "Lumina Studios", role: "Lighting & Rigging", link: "#" },
                     { name: "Vogue Edit House", role: "Post-Production", link: "#" }
@@ -231,15 +278,15 @@
             },
             food: {
                 title: "Food Services.",
-                desc: "Culinary perfection. Specializing in premium catering, authentic Biryani, and artisanal baked goods.",
+                desc: "Culinary perfection. Specializing in premium catering, authentic Biryani, and artisanal goods for enterprises and private events.",
                 collabs: [
-                    { name: "Spice Route Farms", role: "Organic Ingredient Sourcing", link: "#" },
+                    { name: "Spice Route Farms", role: "Organic Sourcing", link: "#" },
                     { name: "EventBite Catering", role: "Logistics Partner", link: "#" }
                 ]
             },
             fashion: {
                 title: "Fashion.",
-                desc: "Curated apparel, bespoke styling, and modern elegance designed for the ambitious enterprise.",
+                desc: "Curated apparel, bespoke styling, and modern elegance designed for the ambitious enterprise and discerning individual.",
                 collabs: [
                     { name: "Silk & Thread Co.", role: "Textile Manufacturing", link: "#" },
                     { name: "Minimalist Brand", role: "Design House Partner", link: "#" }
@@ -247,7 +294,7 @@
             },
             consultancy: {
                 title: "Consultancy.",
-                desc: "High-level strategic scaling, operational efficiency audits, and executive advisory.",
+                desc: "High-level strategic scaling, operational efficiency audits, and executive advisory. The roadmap to dominate your market.",
                 collabs: [
                     { name: "Growth Capital Partners", role: "Financial Advisory", link: "#" },
                     { name: "Global Scale Strategies", role: "Market Expansion", link: "#" }
@@ -257,40 +304,32 @@
 
         // SPA Navigation Logic
         function navigate(viewId) {
-            // Hide all views
-            document.querySelectorAll('.view-section').forEach(el => {
-                el.classList.remove('active');
-            });
+            document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
 
             if (viewId === 'home') {
-                document.getElementById('home').classList.add('active');
+                document.getElementById('home-feed').classList.add('active');
             } else {
-                // Populate dynamic category view
                 const data = pageData[viewId];
                 if(data) {
                     document.getElementById('cat-title').innerText = data.title;
                     document.getElementById('cat-desc').innerText = data.desc;
                     
-                    // Populate Collaborators
                     const grid = document.getElementById('collab-grid');
                     grid.innerHTML = '';
-                    data.collabs.forEach((collab, index) => {
+                    data.collabs.forEach((collab) => {
                         grid.innerHTML += `
-                            <div class="bg-[#121212] p-6 rounded-2xl border border-white/5 hover:border-opRed/50 transition">
-                                <h4 class="font-bold text-lg text-white mb-1" data-testid="collab-name-${index}">${collab.name}</h4>
-                                <p class="text-sm text-gray-500 mb-4" data-testid="collab-role-${index}">${collab.role}</p>
-                                <a href="${collab.link}" data-testid="collab-link-${index}" class="text-opRed text-xs font-bold uppercase tracking-widest hover:text-white transition">View Portfolio &rarr;</a>
+                            <div class="bg-[#111] p-8 rounded-[24px] border border-white/5 hover:border-aeAccent/50 transition-colors group">
+                                <h4 class="font-bold text-xl text-white mb-2 group-hover:text-aeAccent transition-colors">${collab.name}</h4>
+                                <p class="text-sm text-gray-500 mb-6">${collab.role}</p>
+                                <a href="${collab.link}" class="text-white text-xs font-bold uppercase tracking-widest border-b border-white pb-1 hover:text-aeAccent hover:border-aeAccent transition-all">View Portfolio</a>
                             </div>
                         `;
                     });
 
-                    // Reset Form for clean testing slate
-                    document.getElementById('qa-form').reset();
+                    document.getElementById('contact-form').reset();
                     document.getElementById('category-view').classList.add('active');
                 }
             }
-            
-            // Scroll to top smoothly
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     </script>
