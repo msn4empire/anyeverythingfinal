@@ -5,11 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anything Everything | Master Enterprise</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- GSAP & Lenis for Apple-Tier Motion Graphics -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
-
     <script>
         tailwind.config = {
             theme: {
@@ -27,108 +22,125 @@
         }
     </script>
     <style>
-        body { background-color: #000000; color: #ffffff; margin: 0; overflow-x: hidden; }
+        body { background-color: #000000; color: #ffffff; overflow-x: hidden; margin: 0; perspective: 1000px; }
         
-        /* Lenis Smooth Scroll Setup */
-        html.lenis { height: auto; }
-        .lenis.lenis-smooth { scroll-behavior: auto; }
-        .lenis.lenis-smooth [data-scroll-container] { overflow: hidden; }
-
         /* Preloader */
-        #preloader { transition: opacity 1s cubic-bezier(0.8, 0, 0.2, 1); z-index: 99999; }
-        .spinner { width: 50px; height: 50px; border: 2px solid rgba(255,255,255,0.05); border-top-color: #fff; border-radius: 50%; animation: spin 0.8s cubic-bezier(0.6, 0.2, 0.4, 0.8) infinite; }
+        #preloader { transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.8s; }
+        .spinner { width: 40px; height: 40px; border: 3px solid rgba(255,255,255,0.05); border-top-color: #2997ff; border-radius: 50%; animation: spin 1s cubic-bezier(0.6, 0.2, 0.4, 0.8) infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* Glassmorphism */
+        /* VisionOS Ultra-Glass */
         .glass-panel {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.01) 100%);
+            backdrop-filter: saturate(200%) blur(50px);
+            -webkit-backdrop-filter: saturate(200%) blur(50px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            border-left: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 40px 80px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.2);
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s ease;
+        }
+
+        .glass-nav {
+            background: rgba(0, 0, 0, 0.5);
             backdrop-filter: saturate(200%) blur(40px);
             -webkit-backdrop-filter: saturate(200%) blur(40px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 40px 80px rgba(0,0,0,0.8);
-        }
-        .glass-nav {
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: saturate(180%) blur(20px);
-            -webkit-backdrop-filter: saturate(180%) blur(20px);
             border-bottom: 1px solid rgba(255,255,255,0.05);
         }
 
-        /* Horizontal Scroll Layout */
-        #horizontal-scroll-container { width: 100%; height: 100vh; overflow: hidden; }
-        .horizontal-wrapper {
-            width: 500vw; /* 5 sections */
-            height: 100vh;
-            display: flex;
-            flex-wrap: nowrap;
-            will-change: transform;
-        }
-        .panel {
-            width: 100vw;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
-            flex-shrink: 0;
-        }
-
-        /* View Transitions */
-        .view-section { display: none; opacity: 0; position: absolute; top: 0; left: 0; width: 100%; z-index: 10; transition: opacity 0.6s ease-in-out; }
-        .view-section.active { display: block; position: relative; opacity: 1; z-index: 20; }
-
-        /* Typographic & Button Polish */
-        .btn-apple { 
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px); 
-            border: 1px solid rgba(255, 255, 255, 0.15); 
-            color: white; 
-            padding: 16px 40px; 
-            border-radius: 40px; 
-            font-size: 1rem; 
-            font-weight: 500; 
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); 
-        }
-        .btn-apple:hover { background: #ffffff; color: #000000; transform: scale(1.05); }
-        .input-premium { width: 100%; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 18px; color: white; transition: all 0.3s ease; }
-        .input-premium:focus { outline: none; border-color: #2997ff; background: rgba(255,255,255,0.05); }
-
-        /* Performance fixes for reveals */
-        .gsap-reveal { will-change: transform, opacity; opacity: 0; }
+        /* SPA View Management */
+        .view-section { display: none; opacity: 0; transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .view-section.active { display: block; opacity: 1; }
         
-        /* Page Transition Overlay */
-        #transition-overlay {
-            position: fixed;
-            top: 100%;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            background: #050505;
-            z-index: 9999;
+        /* Cinematic Apple Reveals (Motion Graphics Blur & Scale) */
+        .reveal-up { 
+            opacity: 0; 
+            transform: translateY(80px) scale(0.95); 
+            filter: blur(15px);
+            transition: all 1.6s cubic-bezier(0.16, 1, 0.3, 1); 
+        }
+        .reveal-up.in-view { 
+            opacity: 1; 
+            transform: translateY(0) scale(1); 
+            filter: blur(0px);
+        }
+
+        /* Floating Hardware with 3D Depth */
+        .hardware-icon { 
+            opacity: 0; 
+            transform: scale(0.5) translateY(100px) rotateX(-20deg) rotateY(20deg); 
+            filter: drop-shadow(0 30px 40px rgba(0,0,0,0.6)) blur(10px);
+            transition: all 2s cubic-bezier(0.16, 1, 0.3, 1); 
+        }
+        .hardware-icon.in-view { 
+            opacity: 1; 
+            transform: scale(1) translateY(0) rotateX(0deg) rotateY(0deg); 
+            filter: drop-shadow(0 30px 40px rgba(0,0,0,0.6)) blur(0px);
+        }
+        
+        .float { animation: float-anim 6s ease-in-out infinite alternate; }
+        @keyframes float-anim { 0% { transform: translateY(0); } 100% { transform: translateY(-20px); } }
+        
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+        .delay-300 { transition-delay: 300ms; }
+
+        /* Full Screen Snap Sections */
+        .scroll-section { min-height: 100svh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 2rem; position: relative; overflow: hidden; border-bottom: 1px solid rgba(255,255,255,0.03); }
+
+        /* Apple-style Buttons */
+        .btn-apple { 
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            backdrop-filter: blur(20px); 
+            border: 1px solid rgba(255, 255, 255, 0.2); 
+            color: white; 
+            padding: 18px 48px; 
+            border-radius: 40px; 
+            font-size: 1.1rem; 
+            font-weight: 600; 
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .btn-apple:hover { 
+            background: #ffffff; 
+            color: #000000; 
+            transform: scale(1.05) translateY(-2px); 
+            box-shadow: 0 20px 40px rgba(255,255,255,0.2);
+        }
+
+        .input-premium { width: 100%; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 20px; color: white; font-size: 1.1rem; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); backdrop-filter: blur(20px); }
+        .input-premium:focus { outline: none; border-color: #2997ff; box-shadow: 0 0 0 4px rgba(41, 151, 255, 0.2); background: rgba(255,255,255,0.08); transform: translateY(-2px); }
+
+        /* Dynamic Background Glow */
+        .ambient-glow {
+            position: absolute;
+            width: 60vw;
+            height: 60vw;
+            background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 60%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 0;
             pointer-events: none;
         }
     </style>
 </head>
 <body class="antialiased selection:bg-aeAccent selection:text-white">
 
-    <!-- Transition Overlay -->
-    <div id="transition-overlay"></div>
-
-    <!-- Preloader -->
-    <div id="preloader" class="fixed inset-0 bg-black flex flex-col justify-center items-center">
-        <div class="spinner mb-8"></div>
-        <p class="text-gray-400 text-[10px] tracking-[0.5em] uppercase font-bold">Initializing Engine</p>
+    <!-- Premium Preloader -->
+    <div id="preloader" class="fixed inset-0 bg-black z-[100] flex flex-col justify-center items-center">
+        <div class="spinner mb-6"></div>
+        <p class="text-gray-500 text-xs tracking-[0.3em] uppercase font-semibold">Engineering Excellence</p>
     </div>
 
-    <!-- SVG Gradients -->
+    <!-- SVG Metallic Gradients -->
     <svg width="0" height="0" class="absolute">
         <defs>
             <linearGradient id="metal" x1="0%" y1="0%" x2="100%" y2="100%">
                 <stop offset="0%" stop-color="#ffffff"/>
-                <stop offset="50%" stop-color="#777777"/>
-                <stop offset="100%" stop-color="#222222"/>
+                <stop offset="50%" stop-color="#888888"/>
+                <stop offset="100%" stop-color="#333333"/>
             </linearGradient>
             <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
                 <stop offset="0%" stop-color="#FFD700"/>
@@ -138,388 +150,381 @@
         </defs>
     </svg>
 
-    <!-- Navigation -->
-    <nav class="glass-nav fixed top-0 w-full z-50 transition-transform duration-500" id="main-nav">
+    <!-- Global Navigation -->
+    <nav class="glass-nav fixed top-0 w-full z-50 transition-all duration-500" id="main-nav">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
             <button onclick="navigate('home')" class="hover:opacity-80 transition transform hover:scale-105 duration-300">
-                <img src="IMG_0296 (1).jpeg" alt="AE Logo" class="h-8 w-auto object-contain rounded-md">
+                <img src="IMG_0296 (1).jpeg" alt="AE Logo" class="h-10 w-auto object-contain rounded-md shadow-[0_0_15px_rgba(255,255,255,0.1)]">
             </button>
-            <div class="hidden md:flex gap-8 text-[11px] font-bold tracking-[0.2em] text-gray-500 uppercase">
-                <span class="hover:text-white transition cursor-pointer" onclick="scrollToPanel(0)">Software</span>
-                <span class="hover:text-white transition cursor-pointer" onclick="scrollToPanel(1)">Photo</span>
-                <span class="hover:text-white transition cursor-pointer" onclick="scrollToPanel(2)">Food</span>
-                <span class="hover:text-white transition cursor-pointer" onclick="scrollToPanel(3)">Fashion</span>
-                <span class="hover:text-white transition cursor-pointer" onclick="scrollToPanel(4)">Consult</span>
+            <div class="hidden md:flex gap-8 text-xs font-bold tracking-widest text-gray-500 uppercase">
+                <button onclick="navigate('software')" class="hover:text-white transition duration-300">Software</button>
+                <button onclick="navigate('photography')" class="hover:text-white transition duration-300">Photo</button>
+                <button onclick="navigate('food')" class="hover:text-white transition duration-300">Food</button>
+                <button onclick="navigate('fashion')" class="hover:text-white transition duration-300">Fashion</button>
+                <button onclick="navigate('consultancy')" class="hover:text-white transition duration-300">Consult</button>
             </div>
-            <!-- Global Visit Counter -->
-            <div class="text-[10px] text-gray-400 font-mono tracking-widest hidden sm:block border border-white/10 px-4 py-1.5 rounded-full glass-panel flex items-center gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse inline-block"></span>
-                SYS_VISITS: <span id="visitor-count" class="text-white font-bold">...</span>
+            <div class="text-[10px] text-gray-400 font-mono tracking-widest hidden sm:block border border-white/10 px-4 py-2 rounded-full glass-panel hover:bg-white/5 transition-colors">
+                VISITS: <span id="visitor-count" class="text-white font-bold text-xs">0</span>
             </div>
         </div>
     </nav>
 
-    <!-- MASTER FEED (Home) -->
+    <!-- MAIN FEED -->
     <main id="home-feed" class="view-section active">
 
-        <!-- 0. HERO (Vertical Scroll) -->
-        <section class="h-screen w-full flex flex-col justify-center items-center bg-aeDark relative overflow-hidden">
-            <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(41,151,255,0.08)_0%,transparent_50%)]"></div>
-            <div class="z-10 flex flex-col items-center text-center px-4 hero-content">
-                <div class="inline-grid grid-cols-[auto_auto] grid-rows-2 items-center gap-x-2 md:gap-x-4 uppercase italic tracking-tighter font-bold mb-8">
-                    <div class="text-right text-5xl md:text-[6rem] leading-none text-white row-start-1 col-start-1 self-end pb-1 md:pb-2">ANY</div>
-                    <div class="text-right text-5xl md:text-[6rem] leading-none text-aeAccent row-start-2 col-start-1 self-start pt-1 md:pt-2">EVERY</div>
-                    <div class="text-[5.5rem] md:text-[14rem] leading-none row-span-2 col-start-2 relative pr-4 text-transparent bg-clip-text bg-gradient-to-br from-white via-gray-300 to-gray-600">
-                        THING<span class="text-aeAccent absolute bottom-2 md:bottom-6 text-4xl md:text-[6rem]" style="-webkit-text-fill-color: #2997ff;">.</span>
+        <!-- 0. HERO SECTION -->
+        <section class="scroll-section bg-aeDark">
+            <div class="ambient-glow bg-[radial-gradient(circle,rgba(41,151,255,0.05)_0%,transparent_50%)]"></div>
+            <div class="z-10 flex flex-col items-center pt-20">
+                <div class="hardware-icon tilt-effect inline-grid grid-cols-[auto_auto] grid-rows-2 items-center gap-x-2 md:gap-x-4 uppercase italic tracking-tighter font-bold mb-8 cursor-default">
+                    <div class="text-right text-3xl md:text-7xl leading-none text-white row-start-1 col-start-1 self-end pb-1 md:pb-2 drop-shadow-2xl">ANY</div>
+                    <div class="text-right text-3xl md:text-7xl leading-none text-aeAccent row-start-2 col-start-1 self-start pt-1 md:pt-2 drop-shadow-[0_0_20px_rgba(41,151,255,0.4)]">EVERY</div>
+                    <div class="text-[4.5rem] md:text-[12rem] leading-none row-span-2 col-start-2 relative pr-4 text-transparent bg-clip-text bg-gradient-to-br from-white via-gray-300 to-gray-600 drop-shadow-2xl">
+                        THING<span class="text-aeAccent absolute bottom-2 md:bottom-5 text-4xl md:text-7xl" style="-webkit-text-fill-color: #2997ff;">.</span>
                     </div>
                 </div>
-                <p class="text-xl md:text-3xl text-gray-400 font-light max-w-3xl mx-auto leading-relaxed mt-4 tracking-tight">
-                    <span class="text-white font-medium">ANYTHING</span> You order, <span class="text-aeAccent font-medium">EVERYTHING</span> We deliver.
+                <p class="reveal-up delay-100 text-2xl md:text-4xl text-gray-400 font-light max-w-4xl mx-auto leading-relaxed mt-6 tracking-tight">
+                    <span class="text-white font-semibold">ANYTHING</span> You order, <span class="text-aeAccent font-semibold drop-shadow-[0_0_10px_rgba(41,151,255,0.5)]">EVERYTHING</span> We deliver.
                 </p>
-                <div class="mt-24 scroll-indicator opacity-50">
-                    <p class="text-[10px] text-gray-500 tracking-[0.4em] uppercase font-bold mb-2">Scroll to Initiate</p>
-                    <div class="w-[1px] h-12 bg-gradient-to-b from-gray-500 to-transparent mx-auto"></div>
-                </div>
+                <p class="reveal-up delay-200 text-xs text-gray-500 tracking-[0.4em] uppercase mt-24 animate-bounce font-bold">Explore Divisions &darr;</p>
             </div>
         </section>
 
-        <!-- HORIZONTAL SCROLL CONTAINER -->
-        <div id="horizontal-scroll-container" class="bg-black relative">
-            <div class="horizontal-wrapper">
-                
-                <!-- 1. SOFTWARE -->
-                <section class="panel bg-aeTitanium relative">
-                    <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.03)_0%,transparent_60%)]"></div>
-                    <div class="z-10 max-w-4xl px-4 flex flex-col items-center text-center">
-                        <div class="hardware-icon mb-12">
-                            <svg width="160" height="160" viewBox="0 0 100 100">
-                                <rect x="25" y="25" width="50" height="50" rx="10" fill="rgba(10,10,10,0.8)" stroke="url(#metal)" stroke-width="2"/>
-                                <path d="M25 35H15 M25 50H15 M25 65H15 M75 35H85 M75 50H85 M75 65H85" stroke="#2997ff" stroke-width="2"/>
-                                <circle cx="50" cy="50" r="8" fill="#2997ff" class="animate-pulse"/>
-                            </svg>
-                        </div>
-                        <h2 class="gsap-reveal text-[4rem] md:text-[7rem] font-bold tracking-tighter mb-4 leading-none text-white">Software.</h2>
-                        <p class="gsap-reveal text-lg md:text-2xl text-gray-400 mb-10 font-light">Hyper-converting digital experiences engineered for absolute scale.</p>
-                        <div class="gsap-reveal"><button onclick="navigate('software')" class="btn-apple">Explore Division</button></div>
-                    </div>
-                </section>
-
-                <!-- 2. PHOTOGRAPHY -->
-                <section class="panel bg-aeDark relative">
-                    <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.05)_0%,transparent_60%)]"></div>
-                    <div class="z-10 max-w-4xl px-4 flex flex-col items-center text-center">
-                        <div class="hardware-icon mb-12">
-                            <svg width="160" height="160" viewBox="0 0 100 100">
-                                <circle cx="50" cy="50" r="40" fill="#050505" stroke="url(#metal)" stroke-width="3"/>
-                                <circle cx="50" cy="50" r="25" fill="#000" stroke="#333" stroke-width="2"/>
-                                <circle cx="55" cy="45" r="5" fill="#fff" opacity="0.8"/> 
-                            </svg>
-                        </div>
-                        <h2 class="gsap-reveal text-[4rem] md:text-[7rem] font-bold tracking-tighter mb-4 leading-none text-gray-300">Photography.</h2>
-                        <p class="gsap-reveal text-lg md:text-2xl text-gray-400 mb-10 font-light">Cinematic precision. We capture the unseen through high-end lenses.</p>
-                        <div class="gsap-reveal"><button onclick="navigate('photography')" class="btn-apple">Explore Division</button></div>
-                    </div>
-                </section>
-
-                <!-- 3. FOOD -->
-                <section class="panel bg-[#0a0500] relative">
-                    <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,159,10,0.08)_0%,transparent_60%)]"></div>
-                    <div class="z-10 max-w-4xl px-4 flex flex-col items-center text-center">
-                        <div class="hardware-icon mb-12">
-                            <svg width="160" height="160" viewBox="0 0 100 100">
-                                <path d="M15 65 C15 30, 85 30, 85 65" fill="#111" stroke="url(#metal)" stroke-width="2"/>
-                                <rect x="10" y="65" width="80" height="4" rx="2" fill="url(#metal)"/>
-                                <circle cx="50" cy="28" r="6" fill="url(#gold)"/>
-                            </svg>
-                        </div>
-                        <h2 class="gsap-reveal text-[4rem] md:text-[7rem] font-bold tracking-tighter mb-4 leading-none text-[#ff9f0a]">Food.</h2>
-                        <p class="gsap-reveal text-lg md:text-2xl text-gray-400 mb-10 font-light">Culinary excellence. Bespoke enterprise catering and artisanal goods.</p>
-                        <div class="gsap-reveal"><button onclick="navigate('food')" class="btn-apple">Explore Division</button></div>
-                    </div>
-                </section>
-
-                <!-- 4. FASHION -->
-                <section class="panel bg-[#0a0003] relative">
-                    <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,55,95,0.08)_0%,transparent_60%)]"></div>
-                    <div class="z-10 max-w-4xl px-4 flex flex-col items-center text-center">
-                        <div class="hardware-icon mb-12">
-                            <svg width="160" height="160" viewBox="0 0 100 100">
-                                <polygon points="50,15 85,45 50,90 15,45" fill="none" stroke="url(#metal)" stroke-width="2"/>
-                                <polygon points="50,15 65,45 50,90 35,45" fill="none" stroke="#ff375f" stroke-width="2"/>
-                            </svg>
-                        </div>
-                        <h2 class="gsap-reveal text-[4rem] md:text-[7rem] font-bold tracking-tighter mb-4 leading-none text-[#ff375f]">Fashion.</h2>
-                        <p class="gsap-reveal text-lg md:text-2xl text-gray-400 mb-10 font-light">Modern elegance redefined. Curated apparel and bespoke styling.</p>
-                        <div class="gsap-reveal"><button onclick="navigate('fashion')" class="btn-apple">Explore Division</button></div>
-                    </div>
-                </section>
-
-                <!-- 5. CONSULTANCY & AI TOOL -->
-                <section class="panel bg-aeTitanium relative">
-                    <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(48,209,88,0.05)_0%,transparent_60%)]"></div>
-                    <div class="z-10 max-w-5xl px-4 flex flex-col items-center text-center w-full">
-                        <div class="hardware-icon mb-6">
-                            <svg width="120" height="120" viewBox="0 0 100 100">
-                                <rect x="25" y="55" width="10" height="25" fill="url(#metal)" rx="1"/>
-                                <rect x="45" y="40" width="10" height="40" fill="url(#metal)" rx="1"/>
-                                <rect x="65" y="25" width="10" height="55" fill="url(#gold)" rx="1"/>
-                                <path d="M15 85 L85 85" stroke="#fff" stroke-width="2"/>
-                                <path d="M20 50 Q 40 20, 75 25" fill="none" stroke="#30d158" stroke-width="3"/>
-                            </svg>
-                        </div>
-                        <h2 class="gsap-reveal text-[3.5rem] md:text-[6rem] font-bold tracking-tighter mb-2 leading-none text-[#30d158]">Consultancy.</h2>
-                        <p class="gsap-reveal text-lg md:text-xl text-gray-400 mb-6 font-light">The operational roadmap to scale your enterprise to the apex.</p>
-                        
-                        <div class="gsap-reveal mb-10">
-                            <button onclick="navigate('consultancy')" class="btn-apple !py-3 !px-8 !text-sm">Explore Division</button>
-                        </div>
-
-                        <!-- VisionOS AI Tool Embed -->
-                        <div class="gsap-reveal w-full max-w-3xl glass-panel p-8 rounded-3xl relative overflow-hidden group">
-                            <div class="absolute -inset-24 bg-[#30d158]/10 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
-                            <h3 class="text-2xl font-bold text-white mb-3 flex items-center justify-center gap-3">
-                                AI Job Search Assistant 
-                                <span class="bg-gradient-to-r from-[#30d158] to-[#28a745] text-black text-[10px] font-extrabold tracking-widest px-2 py-1 rounded uppercase">Free</span>
-                            </h3>
-                            <p class="text-gray-400 mb-6 text-sm font-light leading-relaxed">
-                                Upload a resume & paste a JD. Our AI Engine tailors your resume instantly and auto-searches top roles on LinkedIn & Naukri.
-                            </p>
-                            <a href="https://job-auto-assistant.vercel.app" target="_blank" rel="noopener noreferrer" class="inline-block bg-white text-black font-bold text-sm py-3 px-8 rounded-full hover:scale-105 transition-transform duration-300 shadow-lg">
-                                Launch AI Engine &rarr;
-                            </a>
-                        </div>
-                    </div>
-                </section>
-
+        <!-- 1. SOFTWARE SECTION -->
+        <section class="scroll-section bg-aeTitanium">
+            <div class="z-10 max-w-4xl px-4 flex flex-col items-center">
+                <div class="hardware-icon tilt-effect float mb-12">
+                    <svg width="200" height="200" viewBox="0 0 100 100" fill="none" stroke="url(#metal)" stroke-width="2" class="drop-shadow-[0_20px_40px_rgba(41,151,255,0.2)]">
+                        <rect x="20" y="20" width="60" height="60" rx="12" fill="rgba(20,20,20,0.8)" stroke="url(#metal)" stroke-width="3" style="backdrop-filter: blur(10px);"/>
+                        <path d="M20 35H8 M20 50H8 M20 65H8 M80 35H92 M80 50H92 M80 65H92 M35 20V8 M50 20V8 M65 20V8 M35 80V92 M50 80V92 M65 80V92" stroke="#2997ff" stroke-width="2.5" stroke-linecap="round"/>
+                        <circle cx="50" cy="50" r="14" fill="url(#metal)"/>
+                        <circle cx="50" cy="50" r="6" fill="#2997ff" class="animate-pulse"/>
+                    </svg>
+                </div>
+                <h2 class="reveal-up text-[4.5rem] md:text-[8rem] font-bold tracking-tighter mb-4 leading-none text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-500">Software.</h2>
+                <p class="reveal-up delay-100 text-xl md:text-2xl text-gray-400 mb-12 font-light">Pro-level architecture. Hyper-converting digital experiences engineered for absolute scale.</p>
+                <div class="reveal-up delay-200"><button onclick="navigate('software')" class="btn-apple">Explore Division &rarr;</button></div>
             </div>
-        </div>
+        </section>
+
+        <!-- 2. PHOTOGRAPHY SECTION -->
+        <section class="scroll-section bg-aeDark">
+            <div class="z-10 max-w-4xl px-4 flex flex-col items-center">
+                <div class="hardware-icon tilt-effect float mb-12">
+                    <svg width="200" height="200" viewBox="0 0 100 100" class="drop-shadow-[0_20px_40px_rgba(255,255,255,0.1)]">
+                        <circle cx="50" cy="50" r="45" fill="rgba(10,10,10,0.8)" stroke="url(#metal)" stroke-width="4"/>
+                        <circle cx="50" cy="50" r="32" fill="#000" stroke="#333" stroke-width="2"/>
+                        <circle cx="50" cy="50" r="18" fill="url(#metal)" opacity="0.2"/>
+                        <circle cx="50" cy="50" r="12" fill="#050505" stroke="url(#metal)" stroke-width="1"/>
+                        <circle cx="58" cy="42" r="5" fill="#ffffff" opacity="0.9" filter="blur(1px)"/> 
+                        <path d="M50 18 L50 82 M18 50 L82 50" stroke="#444" stroke-width="1" opacity="0.6"/>
+                    </svg>
+                </div>
+                <h2 class="reveal-up text-[4.5rem] md:text-[8rem] font-bold tracking-tighter mb-4 leading-none text-transparent bg-clip-text bg-gradient-to-b from-gray-200 to-gray-700">Photography.</h2>
+                <p class="reveal-up delay-100 text-xl md:text-2xl text-gray-400 mb-12 font-light">Cinematic precision. We capture the unseen through high-end commercial and fashion lenses.</p>
+                <div class="reveal-up delay-200"><button onclick="navigate('photography')" class="btn-apple">Explore Division &rarr;</button></div>
+            </div>
+        </section>
+
+        <!-- 3. FOOD SECTION -->
+        <section class="scroll-section bg-[#0a0500]">
+            <div class="ambient-glow bg-[radial-gradient(circle,rgba(255,159,10,0.05)_0%,transparent_50%)]"></div>
+            <div class="z-10 max-w-4xl px-4 flex flex-col items-center">
+                <div class="hardware-icon tilt-effect float mb-12">
+                    <svg width="200" height="200" viewBox="0 0 100 100" class="drop-shadow-[0_20px_40px_rgba(255,159,10,0.2)]">
+                        <path d="M10 70 C10 25, 90 25, 90 70" fill="rgba(20,20,20,0.8)" stroke="url(#metal)" stroke-width="3" style="backdrop-filter: blur(5px);"/>
+                        <rect x="5" y="70" width="90" height="6" rx="3" fill="url(#metal)"/>
+                        <circle cx="50" cy="22" r="7" fill="url(#gold)"/>
+                    </svg>
+                </div>
+                <h2 class="reveal-up text-[4.5rem] md:text-[8rem] font-bold tracking-tighter mb-4 leading-none text-transparent bg-clip-text bg-gradient-to-b from-[#ff9f0a] to-[#8b5a00]">Food.</h2>
+                <p class="reveal-up delay-100 text-xl md:text-2xl text-gray-400 mb-12 font-light">Culinary excellence. From bespoke enterprise catering to masterfully crafted signature dishes.</p>
+                <div class="reveal-up delay-200"><button onclick="navigate('food')" class="btn-apple">Explore Division &rarr;</button></div>
+            </div>
+        </section>
+
+        <!-- 4. FASHION SECTION -->
+        <section class="scroll-section bg-[#0a0003]">
+            <div class="ambient-glow bg-[radial-gradient(circle,rgba(255,55,95,0.05)_0%,transparent_50%)]"></div>
+            <div class="z-10 max-w-4xl px-4 flex flex-col items-center">
+                <div class="hardware-icon tilt-effect float mb-12">
+                    <svg width="200" height="200" viewBox="0 0 100 100" class="drop-shadow-[0_20px_40px_rgba(255,55,95,0.2)]">
+                        <polygon points="50,10 90,40 50,95 10,40" fill="rgba(255,255,255,0.02)" stroke="url(#metal)" stroke-width="3" style="backdrop-filter: blur(10px);"/>
+                        <polygon points="50,10 70,40 50,95 30,40" fill="none" stroke="#ff375f" stroke-width="2" opacity="0.9"/>
+                        <polygon points="50,15 65,40 50,85 35,40" fill="rgba(255,55,95,0.1)"/>
+                    </svg>
+                </div>
+                <h2 class="reveal-up text-[4.5rem] md:text-[8rem] font-bold tracking-tighter mb-4 leading-none text-transparent bg-clip-text bg-gradient-to-b from-[#ff375f] to-[#8b0020]">Fashion.</h2>
+                <p class="reveal-up delay-100 text-xl md:text-2xl text-gray-400 mb-12 font-light">Modern elegance redefined. Curated apparel and bespoke styling for the discerning individual.</p>
+                <div class="reveal-up delay-200"><button onclick="navigate('fashion')" class="btn-apple">Explore Division &rarr;</button></div>
+            </div>
+        </section>
+
+        <!-- 5. CONSULTANCY SECTION (With AI Tool embedded) -->
+        <section class="scroll-section bg-aeTitanium relative z-0">
+            <div class="ambient-glow bg-[radial-gradient(circle,rgba(48,209,88,0.05)_0%,transparent_50%)] z-[-1]"></div>
+            <div class="z-10 max-w-5xl px-4 flex flex-col items-center w-full">
+                <div class="hardware-icon tilt-effect float mb-12">
+                    <svg width="200" height="200" viewBox="0 0 100 100" class="drop-shadow-[0_20px_40px_rgba(48,209,88,0.2)]">
+                        <rect x="20" y="60" width="15" height="30" fill="url(#metal)" rx="2"/>
+                        <rect x="42.5" y="40" width="15" height="50" fill="url(#metal)" rx="2"/>
+                        <rect x="65" y="20" width="15" height="70" fill="url(#gold)" rx="2"/>
+                        <path d="M8 95 L92 95" stroke="url(#metal)" stroke-width="4" stroke-linecap="round"/>
+                        <path d="M15 50 Q 40 5, 80 10" fill="none" stroke="#30d158" stroke-width="4" stroke-linecap="round" filter="drop-shadow(0 0 5px rgba(48,209,88,0.5))"/>
+                        <polygon points="80,2 98,10 80,18" fill="#30d158"/>
+                    </svg>
+                </div>
+                <h2 class="reveal-up text-[4.5rem] md:text-[8rem] font-bold tracking-tighter mb-4 leading-none text-transparent bg-clip-text bg-gradient-to-b from-[#30d158] to-[#125c24]">Consultancy.</h2>
+                <p class="reveal-up delay-100 text-xl md:text-2xl text-gray-400 mb-10 font-light text-center">Visionary strategies. We provide the operational roadmap to scale your enterprise to the apex.</p>
+                
+                <div class="reveal-up delay-200 mb-16">
+                    <button onclick="navigate('consultancy')" class="btn-apple">Explore Division &rarr;</button>
+                </div>
+
+                <!-- 🚀 PREMIUM AI TOOL EMBED (VisionOS Style) -->
+                <div class="reveal-up delay-300 w-full glass-panel tilt-effect p-10 md:p-14 rounded-[40px] text-center mt-4 group hover:shadow-[0_40px_100px_rgba(48,209,88,0.15)] relative overflow-hidden">
+                    
+                    <!-- Inner Glass Glare -->
+                    <div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/40 to-transparent"></div>
+                    <div class="absolute top-0 left-[-100%] w-[50%] h-full bg-gradient-to-r from-transparent via-white/5 to-transparent skew-x-[-30deg] group-hover:left-[200%] transition-all duration-1000 ease-in-out pointer-events-none"></div>
+
+                    <!-- Glowing Aura -->
+                    <div class="absolute -inset-24 bg-gradient-to-r from-[#30d158]/20 to-transparent opacity-0 group-hover:opacity-100 blur-3xl transition-opacity duration-1000 -z-10 pointer-events-none"></div>
+
+                    <h3 class="text-3xl md:text-4xl font-bold text-white mb-6 flex items-center justify-center gap-4 tracking-tight">
+                        AI Job Search Assistant 
+                        <span class="bg-gradient-to-r from-[#30d158] to-[#28a745] text-black text-[11px] font-extrabold tracking-[0.2em] px-3 py-1.5 rounded-full uppercase shadow-[0_0_20px_rgba(48,209,88,0.4)]">Free Access</span>
+                    </h3>
+                    <p class="text-gray-300 mb-10 max-w-3xl mx-auto font-light text-lg md:text-xl leading-relaxed">
+                        Upload your base resume and paste a job description. Our AI Engine instantly tailors your resume to perfectly match requirements and auto-searches top roles on LinkedIn & Naukri.
+                    </p>
+                    <a 
+                        href="https://job-auto-assistant.vercel.app" 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        class="inline-block bg-white text-black font-bold text-lg py-5 px-10 rounded-full hover:scale-[1.03] hover:shadow-[0_0_40px_rgba(255,255,255,0.4)] transition-all duration-500"
+                    >
+                        Launch AI Engine &rarr;
+                    </a>
+                </div>
+                <!-- END AI TOOL EMBED -->
+            </div>
+        </section>
+
     </main>
 
-    <!-- CATEGORY DETAIL VIEW (SPA Page) -->
-    <main id="category-view" class="view-section pt-32 pb-20 min-h-screen bg-aeDark relative">
+    <!-- ================= DYNAMIC CATEGORY VIEW (Inner Pages) ================= -->
+    <main id="category-view" class="view-section pt-32 pb-20 min-h-screen bg-aeDark relative overflow-hidden">
+        <div class="ambient-glow bg-[radial-gradient(circle,rgba(255,255,255,0.03)_0%,transparent_60%)]"></div>
+        
         <div class="max-w-6xl mx-auto px-6 relative z-10">
-            <button onclick="navigate('home')" class="text-gray-400 hover:text-white transition font-bold text-[10px] uppercase tracking-[0.2em] mb-16 flex items-center gap-3 glass-panel px-6 py-3 rounded-full hover:scale-105 duration-300">
-                &larr; Return to Engine
+            <button onclick="navigate('home')" class="text-gray-300 hover:text-white transition font-bold text-xs uppercase tracking-widest mb-16 flex items-center gap-3 glass-panel px-8 py-4 rounded-full w-fit transform hover:scale-105 duration-300">
+                &larr; Back to Master Feed
             </button>
             
-            <div id="detail-content" class="opacity-0 translate-y-10">
-                <h1 id="cat-title" class="text-5xl md:text-[8rem] font-bold tracking-tighter mb-6 leading-none text-white">Division</h1>
-                <p id="cat-desc" class="text-xl md:text-3xl text-gray-400 mb-24 max-w-4xl font-light leading-tight">Details load here.</p>
+            <h1 id="cat-title" class="text-6xl md:text-[9rem] font-bold tracking-tighter mb-6 leading-none drop-shadow-2xl">Division</h1>
+            <p id="cat-desc" class="text-2xl md:text-4xl text-gray-400 mb-24 max-w-4xl font-light leading-tight">Details load here.</p>
 
-                <div class="mb-32">
-                    <h3 class="text-xl font-bold mb-8 text-gray-300 tracking-wider uppercase text-sm">Featured Collaborators</h3>
-                    <div id="collab-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <!-- Populated by JS -->
-                    </div>
+            <div class="mb-32">
+                <h3 class="text-2xl font-bold mb-8 text-white tracking-tight">Featured Collaborators</h3>
+                <div id="collab-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8 perspective-1000">
+                    <!-- Populated by JS -->
                 </div>
+            </div>
 
-                <!-- Intake Form -->
-                <div class="glass-panel p-8 md:p-12 rounded-[30px]">
-                    <h3 class="text-3xl font-bold mb-10 tracking-tight text-white">Initiate Project Request</h3>
-                    <form onsubmit="event.preventDefault(); alert('Request submitted successfully.');" class="space-y-6">
-                        <div class="grid md:grid-cols-2 gap-6">
-                            <div>
-                                <label class="block text-[11px] font-bold tracking-widest uppercase text-gray-500 mb-2 ml-1">Partner Name</label>
-                                <input type="text" required class="input-premium" placeholder="Enter full name">
-                            </div>
-                            <div>
-                                <label class="block text-[11px] font-bold tracking-widest uppercase text-gray-500 mb-2 ml-1">Contact Email</label>
-                                <input type="email" required class="input-premium" placeholder="contact@brand.com">
-                            </div>
+            <!-- Ultra-Glass Premium Intake Form -->
+            <div class="glass-panel tilt-effect p-8 md:p-16 rounded-[40px] relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
+                <h3 class="text-4xl md:text-5xl font-bold mb-12 tracking-tight">Initiate Project Request</h3>
+                <form id="contact-form" onsubmit="event.preventDefault(); alert('Request submitted successfully. Our executive team will contact you shortly.');" class="space-y-8 relative z-10">
+                    
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div>
+                            <label class="block text-sm font-bold tracking-widest uppercase text-gray-500 mb-3 ml-2">Partner / Brand Name</label>
+                            <input type="text" required class="input-premium" placeholder="Enter full name">
                         </div>
                         <div>
-                            <label class="block text-[11px] font-bold tracking-widest uppercase text-gray-500 mb-2 ml-1">Engagement Scope</label>
-                            <select required class="input-premium appearance-none">
-                                <option value="" disabled selected>Select execution level...</option>
-                                <option value="1" class="text-black">Enterprise Retainer</option>
-                                <option value="2" class="text-black">Single Project</option>
-                            </select>
+                            <label class="block text-sm font-bold tracking-widest uppercase text-gray-500 mb-3 ml-2">Contact Email</label>
+                            <input type="email" required class="input-premium" placeholder="contact@brand.com">
                         </div>
-                        <button type="submit" class="w-full bg-white text-black font-bold text-lg py-5 rounded-full hover:scale-[1.02] transition-transform mt-4">
-                            Submit to Processing
-                        </button>
-                    </form>
-                </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-bold tracking-widest uppercase text-gray-500 mb-3 ml-2">Engagement Scope</label>
+                        <select required class="input-premium appearance-none cursor-pointer">
+                            <option value="" disabled selected>Select execution level...</option>
+                            <option value="tier1" class="bg-aeTitanium text-white">Enterprise Retainer</option>
+                            <option value="tier2" class="bg-aeTitanium text-white">Single Project Execution</option>
+                            <option value="tier3" class="bg-aeTitanium text-white">Advisory & Consultation</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="w-full bg-white text-black font-bold text-xl py-6 rounded-full hover:scale-[1.02] transition-all duration-500 shadow-lg hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] mt-8">
+                        Submit to Processing
+                    </button>
+                </form>
             </div>
         </div>
     </main>
 
-    <!-- SCRIPTS -->
+    <footer class="border-t border-white/10 bg-[#020202] py-20 text-center text-gray-500 text-sm font-medium flex flex-col items-center gap-6">
+        <img src="IMG_0296 (1).jpeg" alt="AE Logo" class="h-12 w-auto object-contain rounded-md opacity-70 mb-4 mix-blend-screen">
+        <p class="text-white text-xl font-bold tracking-tight">Anything Everything Group</p>
+        <p class="font-light tracking-wide">Hyderabad, Telangana, India</p>
+        <div class="flex gap-6 mt-2 tracking-wider">
+            <a href="mailto:ae@anyeverything.com" class="hover:text-white transition duration-300">ae@anyeverything.com</a>
+            <span class="text-gray-800">|</span>
+            <a href="tel:+918096401777" class="hover:text-white transition duration-300">8096401777</a>
+        </div>
+        <p class="mt-8 text-gray-700 text-[10px] uppercase tracking-[0.3em]">&copy; <span id="year"></span> All Rights Reserved.</p>
+    </footer>
+
+    <!-- Scripts -->
     <script>
-        // Register GSAP Plugins
-        gsap.registerPlugin(ScrollTrigger);
-
-        // Initialize Lenis Smooth Scroll
-        const lenis = new Lenis({
-            duration: 1.2,
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-            direction: 'vertical',
-            gestureDirection: 'vertical',
-            smooth: true,
-            mouseMultiplier: 1,
-            smoothTouch: false,
-        });
-
-        // Sync GSAP with Lenis
-        lenis.on('scroll', ScrollTrigger.update);
-        gsap.ticker.add((time) => { lenis.raf(time * 1000) });
-        gsap.ticker.lagSmoothing(0);
-
-        let horizontalScrollTrigger;
-
-        // Fetch True Global Visits Counter API
-        async function fetchGlobalVisits() {
-            try {
-                // Using CounterAPI (free, global tracker)
-                const res = await fetch('https://api.counterapi.dev/v1/anyeverything_online/visits/up');
-                const data = await res.json();
-                document.getElementById('visitor-count').innerText = data.count.toLocaleString();
-            } catch (error) {
-                document.getElementById('visitor-count').innerText = 'System Active';
-            }
-        }
-
-        // Preloader & Init
+        // Smooth Preloader Removal
         window.addEventListener('load', () => {
-            fetchGlobalVisits(); // Call the live API
-            
             const preloader = document.getElementById('preloader');
             preloader.style.opacity = '0';
-            setTimeout(() => {
-                preloader.style.display = 'none';
-                initGSAPAnimations();
-            }, 1000);
+            setTimeout(() => preloader.style.display = 'none', 800);
         });
 
-        function initGSAPAnimations() {
-            // Hero Animations explicitly animating from 0 opacity
-            gsap.fromTo(".hero-content > div", { y: 100, opacity: 0 }, { y: 0, opacity: 1, duration: 1.5, ease: "power4.out" });
-            gsap.fromTo(".hero-content p", { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 1.5, delay: 0.3, ease: "power4.out" });
+        // Set Year & Visitor Counter
+        document.getElementById('year').innerText = new Date().getFullYear();
+        let count = localStorage.getItem('ae_visitor_count') || 0;
+        count = parseInt(count) + 1;
+        localStorage.setItem('ae_visitor_count', count);
+        document.getElementById('visitor-count').innerText = count.toLocaleString();
 
-            // HORIZONTAL SCROLL LOGIC
-            const wrapper = document.querySelector('.horizontal-wrapper');
-            const panels = gsap.utils.toArray('.panel');
+        // 3D Apple-Style Tilt Effect on Mouse Move
+        document.addEventListener('mousemove', (e) => {
+            document.querySelectorAll('.tilt-effect').forEach(el => {
+                const rect = el.getBoundingClientRect();
+                // Only animate if in viewport
+                if(rect.top > window.innerHeight || rect.bottom < 0) return;
+                
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = ((y - centerY) / centerY) * -5; // Max 5 deg tilt
+                const rotateY = ((x - centerX) / centerX) * 5;
+                
+                el.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+            });
+        });
 
-            horizontalScrollTrigger = gsap.to(panels, {
-                xPercent: -100 * (panels.length - 1),
-                ease: "none",
-                scrollTrigger: {
-                    trigger: "#horizontal-scroll-container",
-                    pin: true,
-                    scrub: 1.2, // Smooth scrubbing
-                    snap: 1 / (panels.length - 1), // Snaps to sections
-                    end: () => "+=" + wrapper.offsetWidth,
+        // Reset Tilt on mouse leave
+        document.addEventListener('mouseout', () => {
+            document.querySelectorAll('.tilt-effect').forEach(el => {
+                el.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+            });
+        });
+
+        // Intersection Observer for Hardware & Text Reveals (Cinematic Blur In)
+        const observerOptions = { root: null, rootMargin: '0px', threshold: 0.15 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view');
                 }
             });
+        }, observerOptions);
 
-            // Animate Elements INSIDE Horizontal Panels using fromTo ensures they appear
-            panels.forEach((panel, i) => {
-                const icon = panel.querySelector('.hardware-icon');
-                const reveals = panel.querySelectorAll('.gsap-reveal');
-
-                gsap.to(icon, { y: -20, duration: 2.5, ease: "sine.inOut", yoyo: true, repeat: -1 });
-
-                gsap.fromTo(reveals, 
-                    { y: 60, opacity: 0 },
-                    {
-                        y: 0,
-                        opacity: 1,
-                        duration: 1,
-                        stagger: 0.15,
-                        ease: "power3.out",
-                        scrollTrigger: {
-                            trigger: panel,
-                            containerAnimation: horizontalScrollTrigger,
-                            start: "left center",
-                            toggleActions: "play none none reverse"
-                        }
-                    }
-                );
+        function initAnimations() {
+            document.querySelectorAll('.reveal-up, .hardware-icon').forEach(el => {
+                el.classList.remove('in-view');
+                // Small delay to allow CSS reset before re-observing
+                setTimeout(() => observer.observe(el), 50); 
             });
         }
+        
+        document.addEventListener('DOMContentLoaded', initAnimations);
 
-        // Navbar Quick Jump Links
-        function scrollToPanel(index) {
-            if(document.getElementById('category-view').classList.contains('active')) {
-                navigate('home');
-                setTimeout(() => doScroll(index), 1500);
-            } else {
-                doScroll(index);
-            }
-        }
-        function doScroll(index) {
-            const container = document.querySelector('#horizontal-scroll-container');
-            const totalScroll = container.offsetWidth;
-            const targetPos = container.offsetTop + (totalScroll / 4) * index;
-            lenis.scrollTo(targetPos, { duration: 1.5, ease: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
-        }
-
-        // Division Data
+        // Data for Dynamic Detail Pages
         const pageData = {
-            software: { title: "Software.", desc: "Enterprise architecture and full-stack web solutions.", collabs: [{name: "DevOps Dynamics", role: "Cloud Infra"}, {name: "Apex Marketing", role: "Ad Ops"}] },
-            photography: { title: "Photography.", desc: "Cinematic commercial shoots and high-end editorials.", collabs: [{name: "Lumina Studios", role: "Lighting"}, {name: "Vogue Edit", role: "Post-Production"}] },
-            food: { title: "Food.", desc: "Culinary perfection for enterprise catering.", collabs: [{name: "Spice Route", role: "Organic Source"}, {name: "EventBite", role: "Logistics"}] },
-            fashion: { title: "Fashion.", desc: "Modern elegance redefined for the ambitious.", collabs: [{name: "Silk & Thread", role: "Textiles"}, {name: "Minimalist Brand", role: "Design House"}] },
-            consultancy: { title: "Consultancy.", desc: "High-level strategic scaling and executive advisory.", collabs: [{name: "Growth Capital", role: "Financial Advisory"}, {name: "Global Scale", role: "Market Expansion"}] }
+            software: {
+                title: "Software.",
+                desc: "Enterprise architecture, full-stack web solutions, and high-conversion digital marketing campaigns engineered for absolute scale.",
+                collabs: [
+                    { name: "DevOps Dynamics", role: "Cloud Infrastructure Partner", link: "#" },
+                    { name: "Apex Marketing", role: "Digital Ad Operations", link: "#" }
+                ]
+            },
+            photography: {
+                title: "Photography.",
+                desc: "Cinematic commercial shoots, high-end fashion editorials, and elite visual storytelling. We capture the unseen.",
+                collabs: [
+                    { name: "Lumina Studios", role: "Lighting & Rigging", link: "#" },
+                    { name: "Vogue Edit House", role: "Post-Production", link: "#" }
+                ]
+            },
+            food: {
+                title: "Food.",
+                desc: "Culinary perfection. Specializing in premium catering, authentic Biryani, and artisanal goods for enterprises and private events.",
+                collabs: [
+                    { name: "Spice Route Farms", role: "Organic Sourcing", link: "#" },
+                    { name: "EventBite Catering", role: "Logistics Partner", link: "#" }
+                ]
+            },
+            fashion: {
+                title: "Fashion.",
+                desc: "Curated apparel, bespoke styling, and modern elegance designed for the ambitious enterprise and discerning individual.",
+                collabs: [
+                    { name: "Silk & Thread Co.", role: "Textile Manufacturing", link: "#" },
+                    { name: "Minimalist Brand", role: "Design House Partner", link: "#" }
+                ]
+            },
+            consultancy: {
+                title: "Consultancy.",
+                desc: "High-level strategic scaling, operational efficiency audits, and executive advisory. The roadmap to dominate your market.",
+                collabs: [
+                    { name: "Growth Capital Partners", role: "Financial Advisory", link: "#" },
+                    { name: "Global Scale Strategies", role: "Market Expansion", link: "#" }
+                ]
+            }
         };
 
-        // Cinematic SPA Navigation
+        // SPA Navigation Logic
         function navigate(viewId) {
-            const overlay = document.getElementById('transition-overlay');
-            const homeFeed = document.getElementById('home-feed');
-            const catView = document.getElementById('category-view');
-            
-            // Sweep Overlay Up
-            gsap.to(overlay, { 
-                top: 0, 
-                duration: 0.7, 
-                ease: "power4.inOut",
-                onComplete: () => {
-                    lenis.stop(); 
-                    window.scrollTo(0,0); 
-                    
-                    if (viewId === 'home') {
-                        catView.classList.remove('active');
-                        homeFeed.classList.add('active');
-                        ScrollTrigger.refresh();
-                    } else {
-                        homeFeed.classList.remove('active');
-                        catView.classList.add('active');
-                        
-                        // Populate Data
-                        const data = pageData[viewId];
+            document.querySelectorAll('.view-section').forEach(el => {
+                el.style.opacity = '0';
+                setTimeout(() => el.classList.remove('active'), 400); // Wait for fade out
+            });
+
+            setTimeout(() => {
+                if (viewId === 'home') {
+                    const home = document.getElementById('home-feed');
+                    home.classList.add('active');
+                    setTimeout(() => home.style.opacity = '1', 50);
+                    initAnimations();
+                } else {
+                    const data = pageData[viewId];
+                    if(data) {
                         document.getElementById('cat-title').innerText = data.title;
                         document.getElementById('cat-desc').innerText = data.desc;
                         
                         const grid = document.getElementById('collab-grid');
-                        grid.innerHTML = data.collabs.map(c => `
-                            <div class="glass-panel p-8 rounded-2xl hover:bg-white/5 transition-colors group">
-                                <h4 class="font-bold text-2xl text-white mb-1">${c.name}</h4>
-                                <p class="text-sm text-gray-400 font-light">${c.role}</p>
-                            </div>
-                        `).join('');
-                    }
+                        grid.innerHTML = '';
+                        data.collabs.forEach((collab) => {
+                            grid.innerHTML += `
+                                <div class="glass-panel tilt-effect p-10 rounded-[30px] hover:bg-white/5 transition-colors group cursor-pointer overflow-hidden relative">
+                                    <div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+                                    <h4 class="font-bold text-3xl text-white mb-2 group-hover:scale-105 transform origin-left transition-transform duration-500">${collab.name}</h4>
+                                    <p class="text-lg text-gray-400 mb-8 font-light">${collab.role}</p>
+                                    <a href="${collab.link}" class="text-white font-semibold flex items-center gap-2 group-hover:gap-5 transition-all duration-500">View Portfolio <span class="text-xl">&rarr;</span></a>
+                                </div>
+                            `;
+                        });
 
-                    // Sweep Overlay Down
-                    gsap.to(overlay, { 
-                        top: "-100%", 
-                        duration: 0.7, 
-                        ease: "power4.inOut",
-                        onComplete: () => {
-                            overlay.style.top = "100%"; 
-                            lenis.start(); 
-                            
-                            // Animate Detail View
-                            if (viewId !== 'home') {
-                                gsap.fromTo("#detail-content", 
-                                    { y: 100, opacity: 0 }, 
-                                    { y: 0, opacity: 1, duration: 1, ease: "power3.out" }
-                                );
-                            }
-                        }
-                    });
+                        document.getElementById('contact-form').reset();
+                        const catView = document.getElementById('category-view');
+                        catView.classList.add('active');
+                        setTimeout(() => catView.style.opacity = '1', 50);
+                    }
                 }
-            });
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 400);
         }
     </script>
 </body>
