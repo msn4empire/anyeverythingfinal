@@ -35,7 +35,7 @@
         .lenis.lenis-smooth [data-scroll-container] { overflow: hidden; }
 
         /* Preloader */
-        #preloader { transition: opacity 1s cubic-bezier(0.8, 0, 0.2, 1); }
+        #preloader { transition: opacity 1s cubic-bezier(0.8, 0, 0.2, 1); z-index: 99999; }
         .spinner { width: 50px; height: 50px; border: 2px solid rgba(255,255,255,0.05); border-top-color: #fff; border-radius: 50%; animation: spin 0.8s cubic-bezier(0.6, 0.2, 0.4, 0.8) infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
@@ -48,15 +48,16 @@
             box-shadow: 0 40px 80px rgba(0,0,0,0.8);
         }
         .glass-nav {
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0, 0, 0, 0.6);
             backdrop-filter: saturate(180%) blur(20px);
             -webkit-backdrop-filter: saturate(180%) blur(20px);
             border-bottom: 1px solid rgba(255,255,255,0.05);
         }
 
         /* Horizontal Scroll Layout */
+        #horizontal-scroll-container { width: 100%; height: 100vh; overflow: hidden; }
         .horizontal-wrapper {
-            width: 500vw; /* 5 sections = 500vw */
+            width: 500vw; /* 5 sections */
             height: 100vh;
             display: flex;
             flex-wrap: nowrap;
@@ -74,9 +75,9 @@
             flex-shrink: 0;
         }
 
-        /* View Transitions */
-        .view-section { display: none; opacity: 0; position: absolute; top: 0; left: 0; width: 100%; z-index: 10; }
-        .view-section.active { display: block; position: relative; }
+        /* View Transitions (Fixed Black Screen Issue) */
+        .view-section { display: none; opacity: 0; position: absolute; top: 0; left: 0; width: 100%; z-index: 10; transition: opacity 0.6s ease-in-out; }
+        .view-section.active { display: block; position: relative; opacity: 1; z-index: 20; }
 
         /* Typographic & Button Polish */
         .btn-apple { 
@@ -90,16 +91,11 @@
             font-weight: 500; 
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); 
         }
-        .btn-apple:hover { 
-            background: #ffffff; 
-            color: #000000; 
-            transform: scale(1.05); 
-        }
+        .btn-apple:hover { background: #ffffff; color: #000000; transform: scale(1.05); }
         .input-premium { width: 100%; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 18px; color: white; transition: all 0.3s ease; }
         .input-premium:focus { outline: none; border-color: #2997ff; background: rgba(255,255,255,0.05); }
 
         /* Hardware Icons */
-        .hardware-icon { will-change: transform, opacity; }
         .gsap-reveal { opacity: 0; transform: translateY(50px); will-change: transform, opacity; }
         
         /* Page Transition Overlay */
@@ -109,7 +105,7 @@
             left: 0;
             width: 100%;
             height: 100vh;
-            background: #000;
+            background: #050505;
             z-index: 9999;
             pointer-events: none;
         }
@@ -121,7 +117,7 @@
     <div id="transition-overlay"></div>
 
     <!-- Preloader -->
-    <div id="preloader" class="fixed inset-0 bg-black z-[100] flex flex-col justify-center items-center">
+    <div id="preloader" class="fixed inset-0 bg-black flex flex-col justify-center items-center">
         <div class="spinner mb-8"></div>
         <p class="text-gray-400 text-[10px] tracking-[0.5em] uppercase font-bold">Initializing Engine</p>
     </div>
@@ -155,8 +151,10 @@
                 <span class="hover:text-white transition cursor-pointer" onclick="scrollToPanel(3)">Fashion</span>
                 <span class="hover:text-white transition cursor-pointer" onclick="scrollToPanel(4)">Consult</span>
             </div>
-            <div class="text-[10px] text-gray-400 font-mono tracking-widest hidden sm:block border border-white/10 px-4 py-1.5 rounded-full glass-panel">
-                SYS_VISITS: <span id="visitor-count" class="text-white">0</span>
+            <!-- Global Visit Counter -->
+            <div class="text-[10px] text-gray-400 font-mono tracking-widest hidden sm:block border border-white/10 px-4 py-1.5 rounded-full glass-panel flex items-center gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse inline-block"></span>
+                SYS_VISITS: <span id="visitor-count" class="text-white font-bold">...</span>
             </div>
         </div>
     </nav>
@@ -164,29 +162,29 @@
     <!-- MASTER FEED (Home) -->
     <main id="home-feed" class="view-section active">
 
-        <!-- 0. HERO (Vertical) -->
+        <!-- 0. HERO (Vertical Scroll) -->
         <section class="h-screen w-full flex flex-col justify-center items-center bg-aeDark relative overflow-hidden">
             <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(41,151,255,0.08)_0%,transparent_50%)]"></div>
             <div class="z-10 flex flex-col items-center text-center px-4 hero-content">
                 <div class="inline-grid grid-cols-[auto_auto] grid-rows-2 items-center gap-x-2 md:gap-x-4 uppercase italic tracking-tighter font-bold mb-8">
-                    <div class="text-right text-4xl md:text-[5.5rem] leading-none text-white row-start-1 col-start-1 self-end pb-1 md:pb-2">ANY</div>
-                    <div class="text-right text-4xl md:text-[5.5rem] leading-none text-aeAccent row-start-2 col-start-1 self-start pt-1 md:pt-2">EVERY</div>
-                    <div class="text-[5rem] md:text-[14rem] leading-none row-span-2 col-start-2 relative pr-4 text-transparent bg-clip-text bg-gradient-to-br from-white via-gray-300 to-gray-600">
+                    <div class="text-right text-5xl md:text-[6rem] leading-none text-white row-start-1 col-start-1 self-end pb-1 md:pb-2">ANY</div>
+                    <div class="text-right text-5xl md:text-[6rem] leading-none text-aeAccent row-start-2 col-start-1 self-start pt-1 md:pt-2">EVERY</div>
+                    <div class="text-[5.5rem] md:text-[14rem] leading-none row-span-2 col-start-2 relative pr-4 text-transparent bg-clip-text bg-gradient-to-br from-white via-gray-300 to-gray-600">
                         THING<span class="text-aeAccent absolute bottom-2 md:bottom-6 text-4xl md:text-[6rem]" style="-webkit-text-fill-color: #2997ff;">.</span>
                     </div>
                 </div>
                 <p class="text-xl md:text-3xl text-gray-400 font-light max-w-3xl mx-auto leading-relaxed mt-4 tracking-tight">
                     <span class="text-white font-medium">ANYTHING</span> You order, <span class="text-aeAccent font-medium">EVERYTHING</span> We deliver.
                 </p>
-                <div class="mt-20 scroll-indicator opacity-50">
+                <div class="mt-24 scroll-indicator opacity-50">
                     <p class="text-[10px] text-gray-500 tracking-[0.4em] uppercase font-bold mb-2">Scroll to Initiate</p>
                     <div class="w-[1px] h-12 bg-gradient-to-b from-gray-500 to-transparent mx-auto"></div>
                 </div>
             </div>
         </section>
 
-        <!-- HORIZONTAL SCROLL CONTAINER (The Apple Effect) -->
-        <div id="horizontal-scroll-container" class="overflow-hidden bg-black relative">
+        <!-- HORIZONTAL SCROLL CONTAINER (The Cinematic Apple Effect) -->
+        <div id="horizontal-scroll-container" class="bg-black relative">
             <div class="horizontal-wrapper">
                 
                 <!-- 1. SOFTWARE -->
@@ -272,7 +270,7 @@
                         <h2 class="gsap-reveal text-[3.5rem] md:text-[6rem] font-bold tracking-tighter mb-2 leading-none text-[#30d158]">Consultancy.</h2>
                         <p class="gsap-reveal text-lg md:text-xl text-gray-400 mb-6 font-light">The operational roadmap to scale your enterprise to the apex.</p>
                         
-                        <div class="gsap-reveal mb-8">
+                        <div class="gsap-reveal mb-10">
                             <button onclick="navigate('consultancy')" class="btn-apple !py-3 !px-8 !text-sm">Explore Division</button>
                         </div>
 
@@ -286,7 +284,7 @@
                             <p class="text-gray-400 mb-6 text-sm font-light leading-relaxed">
                                 Upload a resume & paste a JD. Our AI Engine tailors your resume instantly and auto-searches top roles on LinkedIn & Naukri.
                             </p>
-                            <a href="https://job-auto-assistant.vercel.app" target="_blank" rel="noopener noreferrer" class="inline-block bg-white text-black font-bold text-sm py-3 px-8 rounded-full hover:scale-105 transition-transform duration-300">
+                            <a href="https://job-auto-assistant.vercel.app" target="_blank" rel="noopener noreferrer" class="inline-block bg-white text-black font-bold text-sm py-3 px-8 rounded-full hover:scale-105 transition-transform duration-300 shadow-lg">
                                 Launch AI Engine &rarr;
                             </a>
                         </div>
@@ -367,23 +365,31 @@
         gsap.ticker.add((time) => { lenis.raf(time * 1000) });
         gsap.ticker.lagSmoothing(0);
 
+        let horizontalScrollTrigger;
+
+        // Fetch True Global Visits Counter API
+        async function fetchGlobalVisits() {
+            try {
+                // Using CounterAPI (free, global tracker)
+                const res = await fetch('https://api.counterapi.dev/v1/anyeverything_online/visits/up');
+                const data = await res.json();
+                document.getElementById('visitor-count').innerText = data.count.toLocaleString();
+            } catch (error) {
+                document.getElementById('visitor-count').innerText = 'System Active';
+            }
+        }
+
         // Preloader & Init
         window.addEventListener('load', () => {
+            fetchGlobalVisits(); // Call the live API
+            
             const preloader = document.getElementById('preloader');
             preloader.style.opacity = '0';
             setTimeout(() => {
                 preloader.style.display = 'none';
                 initGSAPAnimations();
             }, 1000);
-            
-            // Visitor Count
-            let count = localStorage.getItem('ae_visits') || 0;
-            count++;
-            localStorage.setItem('ae_visits', count);
-            document.getElementById('visitor-count').innerText = count.toLocaleString();
         });
-
-        let horizontalScrollTrigger;
 
         function initGSAPAnimations() {
             // Hero Animations
@@ -400,21 +406,19 @@
                 scrollTrigger: {
                     trigger: "#horizontal-scroll-container",
                     pin: true,
-                    scrub: 1, // Smooth scrubbing
-                    snap: 1 / (panels.length - 1), // Snaps exactly to sections
+                    scrub: 1.2, // Smooth scrubbing
+                    snap: 1 / (panels.length - 1), // Snaps to sections
                     end: () => "+=" + wrapper.offsetWidth,
                 }
             });
 
-            // Animate Elements INSIDE the Horizontal Panels when they enter
+            // Animate Elements INSIDE Horizontal Panels
             panels.forEach((panel, i) => {
                 const icon = panel.querySelector('.hardware-icon');
                 const reveals = panel.querySelectorAll('.gsap-reveal');
 
-                // Hardware Float Animation
                 gsap.to(icon, { y: -20, duration: 2.5, ease: "sine.inOut", yoyo: true, repeat: -1 });
 
-                // Element Reveal linked to horizontal scroll position
                 gsap.from(reveals, {
                     y: 60,
                     opacity: 0,
@@ -447,7 +451,7 @@
             lenis.scrollTo(targetPos, { duration: 1.5, ease: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
         }
 
-        // Data for Pages
+        // Division Data
         const pageData = {
             software: { title: "Software.", desc: "Enterprise architecture and full-stack web solutions.", collabs: [{name: "DevOps Dynamics", role: "Cloud Infra"}, {name: "Apex Marketing", role: "Ad Ops"}] },
             photography: { title: "Photography.", desc: "Cinematic commercial shoots and high-end editorials.", collabs: [{name: "Lumina Studios", role: "Lighting"}, {name: "Vogue Edit", role: "Post-Production"}] },
@@ -462,14 +466,14 @@
             const homeFeed = document.getElementById('home-feed');
             const catView = document.getElementById('category-view');
             
-            // 1. Sweep Overlay Up
+            // Sweep Overlay Up
             gsap.to(overlay, { 
                 top: 0, 
                 duration: 0.7, 
                 ease: "power4.inOut",
                 onComplete: () => {
-                    lenis.stop(); // Pause scrolling
-                    window.scrollTo(0,0); // Reset physical scroll
+                    lenis.stop(); 
+                    window.scrollTo(0,0); 
                     
                     if (viewId === 'home') {
                         catView.classList.remove('active');
@@ -493,16 +497,16 @@
                         `).join('');
                     }
 
-                    // 2. Sweep Overlay Away (Down)
+                    // Sweep Overlay Down
                     gsap.to(overlay, { 
                         top: "-100%", 
                         duration: 0.7, 
                         ease: "power4.inOut",
                         onComplete: () => {
-                            overlay.style.top = "100%"; // Reset for next time
-                            lenis.start(); // Resume scrolling
+                            overlay.style.top = "100%"; 
+                            lenis.start(); 
                             
-                            // Animate Detail View elements in
+                            // Animate Detail View
                             if (viewId !== 'home') {
                                 gsap.fromTo("#detail-content", 
                                     { y: 100, opacity: 0 }, 
